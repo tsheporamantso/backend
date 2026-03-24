@@ -2,8 +2,8 @@
 
 <div align="center">
 
-  <h1><b>ALIEN MANAGEMENT 👽</b></h1>
-  <img src ="./image.png" width="900">
+  <h1><b>PORTFOLIO DATA 📚</b></h1>
+  <!-- <img src ="./image.png" width="900"> -->
 </div>
 
 <!-- TABLE OF CONTENTS -->
@@ -32,13 +32,14 @@
 
 <!-- PROJECT DESCRIPTION -->
 
-# 📖 ALIEN MANAGEMENT 👽<a name="about-project"></a>
+# 📖 PORTFOLIO DATA 📚<a name="about-project"></a>
 
-**ALIEN MANAGEMENT 👽** Restful API that collects Web Engineers name, favorite tech stack and employment status, built with NodeJS, ExpressJS , Non Relational Database MongoDB and Mongoose Modelling library.
+**PORTFOLIO DATA 📚** Restful API that collects selected projects data for my portfolio website, built with TypeScript, ExpressJS , Non Relational Database MongoDB and Mongoose Modelling library.
 
 ## 🛠 Built With <a name="built-with"></a>
 
 - **ExpressJS**
+- **TypeScript**
 - **NodeJS**
 - **Mongoose**
 - **MongoDB**
@@ -67,8 +68,8 @@
 
 - **Model, Views and Controller**
 - **ExpressJS API endpoints**
-- **MongoDB**
-- **Mongoose**
+- **Mongoose Database Modelling**
+- **MongoDB Data Management**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -100,7 +101,7 @@ Clone this repository to your desired folder:
 ```sh
   mkdir nodejs
   cd nodejs
-  git clone git@github.com:tsheporamantso/aliens.git
+  git clone git@github.com:tsheporamantso/personal_portfolio_data.git
 ```
 
 ### Install
@@ -119,6 +120,10 @@ Install this project with:
   npm install express --save
 ```
 
+```sh
+  tsc --init
+```
+
 ### Usage
 
 To run the project, execute the following command:
@@ -126,6 +131,10 @@ run the result on the terminal through:
 
 ```sh
   npm start
+```
+
+```sh
+  tsc --watch
 ```
 
 ### Run tests
@@ -186,7 +195,7 @@ If you like this project please give a star on [github](https://github.com/tshep
 
 I would like to thank:
 
-- [ ] **Dumisani and Nelly Ramantso from Port 668**
+- [ ] **Dumisani and Nelly Ramantso from Port 668 and BlackSwans Technologies**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -194,7 +203,6 @@ I would like to thank:
 
 ## 📝 License <a name="license"></a>
 
-This project is [MIT](https://github.com/tsheporamantso/task-manager-api/blob/7b1ac7df847508247c81cf6ca6ef8e59bcb49ec1/LICENSE) licensed.
+This project is [MIT](https://github.com/tsheporamantso/personal_portfolio_data/blob/0be8203cdf2bb185a27ab0c3afee2f1c12e9900a/LICENSE) licensed.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
