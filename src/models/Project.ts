@@ -39,3 +39,5 @@ const ProjectSchema: Schema = new Schema(
   },
   { timestamps: true },
 );
+
+export default mongoose.model<IProject>("Project", ProjectSchema);
