@@ -3,11 +3,14 @@ import path from "path";
 import express from "express";
 import connectDB from "./db/connect";
 import { getEnvVariable } from "./utils/env";
+const router = require("./routes/projects");
 
 const app = express();
 
 // middleware
 app.use("/images", express.static(path.join(__dirname, "public/images")));
+app.use("/api/v1/projects", router);
+app.use(express.json());
 
 const port = process.env.PORT || 3000;
 
