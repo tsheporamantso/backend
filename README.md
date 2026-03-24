@@ -195,7 +195,7 @@ If you like this project please give a star on [github](https://github.com/tshep
 
 I would like to thank:
 
-- [ ] **Dumisani and Nelly Ramantso from Port 668**
+- [ ] **Dumisani and Nelly Ramantso from Port 668 and BlackSwans Technologies**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
