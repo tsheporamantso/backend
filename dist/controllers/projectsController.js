@@ -28,11 +28,35 @@ const getAllProjects = async (req, res) => {
         }
     }
 };
-const getSingleProject = (req, res) => {
-    res.status(200).json({
-        success: true,
-        data: "Get a single project",
-    });
+const getSingleProject = async (req, res) => {
+    try {
+        const { id: projectID } = req.params;
+        const project = await Project_1.default.findOne({ _id: projectID });
+        if (!project) {
+            res.status(404).json({
+                success: false,
+                msg: `No project with id: ${projectID}`,
+            });
+        }
+        res.status(200).json({
+            success: true,
+            data: project,
+        });
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            res.status(500).json({
+                success: false,
+                msg: error.message,
+            });
+        }
+        else {
+            res.status(500).json({
+                success: false,
+                msg: "Something wet wrong",
+            });
+        }
+    }
 };
 const createProject = async (req, res) => {
     try {
@@ -90,11 +114,36 @@ const updateProject = async (req, res) => {
         }
     }
 };
-const deleteProject = (req, res) => {
-    res.status(200).json({
-        success: true,
-        data: "Delete project",
-    });
+const deleteProject = async (req, res) => {
+    try {
+        const { id: projectID } = req.params;
+        const project = await Project_1.default.findOneAndDelete({ _id: projectID });
+        if (!project) {
+            res.status(404).json({
+                success: false,
+                msg: `no project with id: ${projectID}`,
+            });
+        }
+        res.status(200).json({
+            success: true,
+            msg: "project deleted successfully",
+            data: null,
+        });
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            res.status(500).json({
+                success: false,
+                msg: error.message,
+            });
+        }
+        else {
+            res.status(500).json({
+                success: false,
+                msg: "Something went wrong",
+            });
+        }
+    }
 };
 module.exports = {
     getAllProjects,
