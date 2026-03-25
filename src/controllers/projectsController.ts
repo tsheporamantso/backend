@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import Project from "../models/Project";
 
 const getAllProjects = (req: Request, res: Response) => {
   res.status(200).json({
@@ -14,11 +15,26 @@ const getSingleProject = (req: Request, res: Response) => {
   });
 };
 
-const createProject = (req: Request, res: Response) => {
-  res.status(200).json({
-    success: true,
-    data: "Create a project",
-  });
+const createProject = async (req: Request, res: Response) => {
+  try {
+    const project = await Project.create(req.body);
+    res.status(201).json({
+      success: true,
+      data: project,
+    });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(500).json({
+        success: false,
+        msg: error.message,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        msg: "Something went wrong",
+      });
+    }
+  }
 };
 
 const updateProject = (req: Request, res: Response) => {

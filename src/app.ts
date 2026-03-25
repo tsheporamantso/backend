@@ -7,10 +7,14 @@ const router = require("./routes/projects");
 
 const app = express();
 
-// middleware
-app.use("/images", express.static(path.join(__dirname, "public/images")));
-app.use("/api/v1/projects", router);
+// body parse
 app.use(express.json());
+
+// static files
+app.use("/images", express.static(path.join(__dirname, "public/images")));
+
+// routes
+app.use("/api/v1/projects", router);
 
 const port = process.env.PORT || 3000;
 
