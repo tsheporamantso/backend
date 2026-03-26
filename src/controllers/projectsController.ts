@@ -1,146 +1,74 @@
-import { Request, Response } from "express";
 import Project from "../models/Project";
+import { Request, Response, NextFunction } from "express";
+import { asyncWrapper } from "../middleware/async";
+import { createCustomError } from "../errors/custom-error";
 
-const getAllProjects = async (req: Request, res: Response) => {
-  try {
-    const project = await Project.find({});
-    res.status(200).json({
-      nbHits: project.length,
-      success: true,
-      data: project,
-    });
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({
-        success: false,
-        msg: error.message,
-      });
-    } else {
-      res.status(500).json({
-        success: false,
-        msg: "Something wet wrong",
-      });
-    }
-  }
-};
+const getAllProjects = asyncWrapper(async (req: Request, res: Response) => {
+  const project = await Project.find({});
+  res.status(200).json({
+    nbHits: project.length,
+    success: true,
+    data: project,
+  });
+});
 
-const getSingleProject = async (req: Request, res: Response) => {
-  try {
+const getSingleProject = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
     const { id: projectID } = req.params;
     const project = await Project.findOne({ _id: projectID });
     if (!project) {
-      res.status(404).json({
-        success: false,
-        msg: `No project with id: ${projectID}`,
-      });
+      return next(createCustomError(`No project with id: ${projectID}`, 404));
     }
 
     res.status(200).json({
       success: true,
       data: project,
     });
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({
-        success: false,
-        msg: error.message,
-      });
-    } else {
-      res.status(500).json({
-        success: false,
-        msg: "Something wet wrong",
-      });
-    }
-  }
-};
+  },
+);
 
-const createProject = async (req: Request, res: Response) => {
-  try {
-    const project = await Project.create(req.body);
-    res.status(201).json({
-      success: true,
-      data: project,
-    });
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      res.status(500).json({
-        success: false,
-        msg: error.message,
-      });
-    } else {
-      res.status(500).json({
-        success: false,
-        msg: "Something went wrong",
-      });
-    }
-  }
-};
+const createProject = asyncWrapper(async (req: Request, res: Response) => {
+  const project = await Project.create(req.body);
+  res.status(201).json({
+    success: true,
+    data: project,
+  });
+});
 
-const updateProject = async (req: Request, res: Response) => {
-  try {
-    const { id: projectID } = req.params;
-    const project = await Project.findOneAndUpdate(
-      { _id: projectID },
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      },
-    );
-    if (!project) {
-      res.status(404).json({
-        success: false,
-        msg: `No project with id: ${projectID}`,
-      });
-    }
-    res.status(200).json({
-      success: true,
-      data: project,
+const updateProject = asyncWrapper(async (req: Request, res: Response) => {
+  const { id: projectID } = req.params;
+  const project = await Project.findOneAndUpdate({ _id: projectID }, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  if (!project) {
+    res.status(404).json({
+      success: false,
+      msg: `No project with id: ${projectID}`,
     });
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({
-        success: false,
-        msg: error.message,
-      });
-    } else {
-      res.status(500).json({
-        success: false,
-        msg: "Something went wrong",
-      });
-    }
+    return;
   }
-};
+  res.status(200).json({
+    success: true,
+    data: project,
+  });
+});
 
-const deleteProject = async (req: Request, res: Response) => {
-  try {
-    const { id: projectID } = req.params;
-    const project = await Project.findOneAndDelete({ _id: projectID });
-    if (!project) {
-      res.status(404).json({
-        success: false,
-        msg: `no project with id: ${projectID}`,
-      });
-    }
-    res.status(200).json({
-      success: true,
-      msg: "project deleted successfully",
-      data: null,
+const deleteProject = asyncWrapper(async (req: Request, res: Response) => {
+  const { id: projectID } = req.params;
+  const project = await Project.findOneAndDelete({ _id: projectID });
+  if (!project) {
+    res.status(404).json({
+      success: false,
+      msg: `no project with id: ${projectID}`,
     });
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({
-        success: false,
-        msg: error.message,
-      });
-    } else {
-      res.status(500).json({
-        success: false,
-        msg: "Something went wrong",
-      });
-    }
   }
-};
+  res.status(200).json({
+    success: true,
+    msg: "project deleted successfully",
+    data: null,
+  });
+});
 
 module.exports = {
   getAllProjects,
