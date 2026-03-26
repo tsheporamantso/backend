@@ -15,6 +15,9 @@ app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 // routes
 app.use("/api/v1/projects", router);
+app.use((req, res) => {
+  res.status(404).json({ msg: "Route not found" });
+});
 
 const port = process.env.PORT || 3000;
 
