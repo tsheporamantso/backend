@@ -32,32 +32,25 @@ const createProject = (0, async_1.asyncWrapper)(async (req, res) => {
         data: project,
     });
 });
-const updateProject = (0, async_1.asyncWrapper)(async (req, res) => {
+const updateProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
     const { id: projectID } = req.params;
     const project = await Project_1.default.findOneAndUpdate({ _id: projectID }, req.body, {
         new: true,
         runValidators: true,
     });
     if (!project) {
-        res.status(404).json({
-            success: false,
-            msg: `No project with id: ${projectID}`,
-        });
-        return;
+        return next((0, custom_error_1.createCustomError)(`No project with id: ${projectID}`, 404));
     }
     res.status(200).json({
         success: true,
         data: project,
     });
 });
-const deleteProject = (0, async_1.asyncWrapper)(async (req, res) => {
+const deleteProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
     const { id: projectID } = req.params;
     const project = await Project_1.default.findOneAndDelete({ _id: projectID });
     if (!project) {
-        res.status(404).json({
-            success: false,
-            msg: `no project with id: ${projectID}`,
-        });
+        return next((0, custom_error_1.createCustomError)(`No project with id: ${projectID}`, 404));
     }
     res.status(200).json({
         success: true,
