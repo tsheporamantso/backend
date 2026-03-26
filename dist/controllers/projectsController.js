@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Project_1 = __importDefault(require("../models/Project"));
 const async_1 = require("../middleware/async");
+const custom_error_1 = require("../errors/custom-error");
 const getAllProjects = (0, async_1.asyncWrapper)(async (req, res) => {
     const project = await Project_1.default.find({});
     res.status(200).json({
@@ -13,15 +14,11 @@ const getAllProjects = (0, async_1.asyncWrapper)(async (req, res) => {
         data: project,
     });
 });
-const getSingleProject = (0, async_1.asyncWrapper)(async (req, res) => {
+const getSingleProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
     const { id: projectID } = req.params;
     const project = await Project_1.default.findOne({ _id: projectID });
     if (!project) {
-        res.status(404).json({
-            success: false,
-            msg: `No project with id: ${projectID}`,
-        });
-        return;
+        return next((0, custom_error_1.createCustomError)(`No project with id: ${projectID}`, 404));
     }
     res.status(200).json({
         success: true,

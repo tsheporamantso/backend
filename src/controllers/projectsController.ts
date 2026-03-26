@@ -1,6 +1,7 @@
 import Project from "../models/Project";
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { asyncWrapper } from "../middleware/async";
+import { createCustomError } from "../errors/custom-error";
 
 const getAllProjects = asyncWrapper(async (req: Request, res: Response) => {
   const project = await Project.find({});
@@ -11,22 +12,20 @@ const getAllProjects = asyncWrapper(async (req: Request, res: Response) => {
   });
 });
 
-const getSingleProject = asyncWrapper(async (req: Request, res: Response) => {
-  const { id: projectID } = req.params;
-  const project = await Project.findOne({ _id: projectID });
-  if (!project) {
-    res.status(404).json({
-      success: false,
-      msg: `No project with id: ${projectID}`,
-    });
-    return;
-  }
+const getSingleProject = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id: projectID } = req.params;
+    const project = await Project.findOne({ _id: projectID });
+    if (!project) {
+      return next(createCustomError(`No project with id: ${projectID}`, 404));
+    }
 
-  res.status(200).json({
-    success: true,
-    data: project,
-  });
-});
+    res.status(200).json({
+      success: true,
+      data: project,
+    });
+  },
+);
 
 const createProject = asyncWrapper(async (req: Request, res: Response) => {
   const project = await Project.create(req.body);

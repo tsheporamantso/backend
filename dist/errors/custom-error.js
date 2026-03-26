@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CustomAPIError = void 0;
-exports.createCustomError = createCustomError;
+exports.createCustomError = exports.CustomAPIError = void 0;
 class CustomAPIError extends Error {
     constructor(message, statusCode) {
         super(message);
@@ -9,6 +8,7 @@ class CustomAPIError extends Error {
     }
 }
 exports.CustomAPIError = CustomAPIError;
-function createCustomError(msg, statusCode) {
+const createCustomError = (msg, statusCode) => {
     return new CustomAPIError(msg, statusCode);
-}
+};
+exports.createCustomError = createCustomError;
