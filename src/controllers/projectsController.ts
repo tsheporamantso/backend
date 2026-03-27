@@ -5,11 +5,11 @@ import { createCustomError } from "../errors/custom-error";
 
 type ProjectQuery = {
   title?: string | { $regex: string; $options: string };
-  stack?: string[] | { $regex: string; $options: string };
+  stack?: { $in: RegExp[] };
 };
 
 const getAllProjects = asyncWrapper(async (req: Request, res: Response) => {
-  const { title, sort, stack } = req.query;
+  const { title, sort, stack, fields } = req.query;
   const queryObject: ProjectQuery = {};
 
   if (typeof title === "string") {
@@ -17,15 +17,27 @@ const getAllProjects = asyncWrapper(async (req: Request, res: Response) => {
   }
 
   if (typeof stack === "string") {
-    queryObject.stack = { $regex: stack, $options: "i" };
+    const stackValues = stack.split(",").map((item) => new RegExp(item, "i"));
+    queryObject.stack = { $in: stackValues };
   }
 
   let result = Project.find(queryObject);
 
+  // sort
   if (typeof sort === "string") {
     const sortList = sort.split(",").join(" ");
     result = result.sort(sortList);
+  } else {
+    result = result.sort("createdAt");
   }
+
+  // select
+  if (typeof fields === "string") {
+    const fieldsList = fields.split(",").join(" ");
+    result = result.select(fieldsList);
+  }
+
+  console.log(queryObject);
 
   const project = await result;
   res.status(200).json({
