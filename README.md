@@ -168,7 +168,7 @@ Not deployed
 ## 🔭 Future Features <a name="future-features"></a>
 
 - [ ] **Add Authentication**
-- [ ] **Deployment**
+- [ ] **Deployment and Document API**
 - [ ] ~~Query Parameters~~
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
