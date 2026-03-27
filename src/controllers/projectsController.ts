@@ -3,8 +3,31 @@ import { Request, Response, NextFunction } from "express";
 import { asyncWrapper } from "../middleware/async";
 import { createCustomError } from "../errors/custom-error";
 
+type ProjectQuery = {
+  title?: string | { $regex: string; $options: string };
+  stack?: string[] | { $regex: string; $options: string };
+};
+
 const getAllProjects = asyncWrapper(async (req: Request, res: Response) => {
-  const project = await Project.find({});
+  const { title, sort, stack } = req.query;
+  const queryObject: ProjectQuery = {};
+
+  if (typeof title === "string") {
+    queryObject.title = { $regex: title, $options: "i" };
+  }
+
+  if (typeof stack === "string") {
+    queryObject.stack = { $regex: stack, $options: "i" };
+  }
+
+  let result = Project.find(queryObject);
+
+  if (typeof sort === "string") {
+    const sortList = sort.split(",").join(" ");
+    result = result.sort(sortList);
+  }
+
+  const project = await result;
   res.status(200).json({
     nbHits: project.length,
     success: true,
