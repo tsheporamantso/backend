@@ -35,40 +35,41 @@ const createProject = asyncWrapper(async (req: Request, res: Response) => {
   });
 });
 
-const updateProject = asyncWrapper(async (req: Request, res: Response) => {
-  const { id: projectID } = req.params;
-  const project = await Project.findOneAndUpdate({ _id: projectID }, req.body, {
-    new: true,
-    runValidators: true,
-  });
-  if (!project) {
-    res.status(404).json({
-      success: false,
-      msg: `No project with id: ${projectID}`,
+const updateProject = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id: projectID } = req.params;
+    const project = await Project.findOneAndUpdate(
+      { _id: projectID },
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+    if (!project) {
+      return next(createCustomError(`No project with id: ${projectID}`, 404));
+    }
+    res.status(200).json({
+      success: true,
+      data: project,
     });
-    return;
-  }
-  res.status(200).json({
-    success: true,
-    data: project,
-  });
-});
+  },
+);
 
-const deleteProject = asyncWrapper(async (req: Request, res: Response) => {
-  const { id: projectID } = req.params;
-  const project = await Project.findOneAndDelete({ _id: projectID });
-  if (!project) {
-    res.status(404).json({
-      success: false,
-      msg: `no project with id: ${projectID}`,
+const deleteProject = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id: projectID } = req.params;
+    const project = await Project.findOneAndDelete({ _id: projectID });
+    if (!project) {
+      return next(createCustomError(`No project with id: ${projectID}`, 404));
+    }
+    res.status(200).json({
+      success: true,
+      msg: "project deleted successfully",
+      data: null,
     });
-  }
-  res.status(200).json({
-    success: true,
-    msg: "project deleted successfully",
-    data: null,
-  });
-});
+  },
+);
 
 module.exports = {
   getAllProjects,
