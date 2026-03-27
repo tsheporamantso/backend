@@ -1,8 +1,5 @@
 require("dotenv").config();
 
-import path from "path";
-import fs from "fs";
-
 import Project from "../models/Project";
 import connectDB from "../db/connect";
 import { getEnvVariable } from "../utils/env";
