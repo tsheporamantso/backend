@@ -28,7 +28,6 @@ const getAllProjects = (0, async_1.asyncWrapper)(async (req, res) => {
         const fieldsList = fields.split(",").join(" ");
         result = result.select(fieldsList);
     }
-    console.log(queryObject);
     const project = await result;
     res.status(200).json({
         nbHits: project.length,
