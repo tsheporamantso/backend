@@ -12,7 +12,10 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3001",
+    origin: [
+      "http://localhost:3001",
+      "https://personal-portfolio-data.onrender.com",
+    ],
     credentials: true,
   }),
 );
