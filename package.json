@@ -4,7 +4,8 @@
   "description": "Express JS application that persist data for my personal portfolio.",
   "main": "./dist/app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
