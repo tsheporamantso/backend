@@ -19,6 +19,7 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json());
 app.use("/images", express_1.default.static(path_1.default.join(process.cwd(), "public/images")));
+console.log("CORS FIX IS LIVE 🚀");
 app.use("/api/v1/projects", router);
 app.use(notFound_1.notFound);
 app.use(errorHandler_1.errorHandlerMiddleware);

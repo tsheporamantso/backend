@@ -23,6 +23,8 @@ app.use(express.json());
 // static files
 app.use("/images", express.static(path.join(process.cwd(), "public/images")));
 
+console.log("CORS FIX IS LIVE 🚀");
+
 // routes
 app.use("/api/v1/projects", router);
 app.use(notFound);
