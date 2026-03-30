@@ -6,14 +6,24 @@ import { getEnvVariable } from "./utils/env";
 const router = require("./routes/projects");
 import { notFound } from "./middleware/notFound";
 import { errorHandlerMiddleware } from "./middleware/errorHandler";
+import cors from "cors";
 
 const app = express();
+
+app.use(
+  cors({
+    origin: ["http://localhost:3001", "https://gladwinramantso.netlify.app"],
+    credentials: true,
+  }),
+);
 
 // body parse
 app.use(express.json());
 
 // static files
-app.use("/images", express.static(path.join(__dirname, "public/images")));
+app.use("/images", express.static(path.join(process.cwd(), "public/images")));
+
+console.log("CORS FIX IS LIVE 🚀");
 
 // routes
 app.use("/api/v1/projects", router);

@@ -37,8 +37,6 @@ const getAllProjects = asyncWrapper(async (req: Request, res: Response) => {
     result = result.select(fieldsList);
   }
 
-  console.log(queryObject);
-
   const project = await result;
   res.status(200).json({
     nbHits: project.length,
