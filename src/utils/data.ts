@@ -1,6 +1,6 @@
 export const data = [
   {
-    image: "/public/images/staysphare.png",
+    image: "/images/staysphare.png",
     title: "StaySphere",
     github: "https://github.com/tsheporamantso/final-capstone-react-front-end",
     demo: "https://github.com/tsheporamantso/final-capstone-react-front-end",
@@ -17,7 +17,7 @@ export const data = [
     ],
   },
   {
-    image: "/public/images/Space.png",
+    image: "/images/Space.png",
     title: "Space Travellers Hub",
     github: "https://github.com/tsheporamantso/Space-Travelers",
     demo: "https://space-travellers-6soy.onrender.com/",
@@ -27,7 +27,7 @@ export const data = [
   },
 
   {
-    image: "public/images/chatalpha.png",
+    image: "/images/chatalpha.png",
     title: "Chat Alpha",
     github: "https://github.com/tsheporamantso/Chat-Alpha",
     demo: "https://github.com/tsheporamantso/Chat-Alpha",
@@ -37,7 +37,7 @@ export const data = [
   },
 
   {
-    image: "/public/images/wikipedia.png",
+    image: "/images/wikipedia.png",
     title: "Wikipedia",
     github: "https://github.com/tsheporamantso/wikipedia",
     demo: "https://wikipedia-ten-indol.vercel.app/",
@@ -47,7 +47,7 @@ export const data = [
   },
 
   {
-    image: "/public/images/aliens.png",
+    image: "/images/aliens.png",
     title: "Aliens Management",
     github: "https://github.com/tsheporamantso/aliens",
     demo: "https://github.com/tsheporamantso/aliens",
@@ -57,7 +57,7 @@ export const data = [
   },
 
   {
-    image: "/public/images/recipe.png",
+    image: "/images/recipe.png",
     title: "Recipe App",
     github: "https://github.com/tsheporamantso/Recipe-App",
     demo: "https://recipeapp-sxaw.onrender.com",
@@ -66,7 +66,7 @@ export const data = [
     stack: ["Ruby on Rails", "PostgreSQL", "RSpec", "ERB"],
   },
   {
-    image: "/public/images/leaderboard.png",
+    image: "/images/leaderboard.png",
     title: "Leader Board",
     github: "https://github.com/tsheporamantso/budget-app",
     demo: "https://tsheporamantso.github.io/Leaderboard/dist",
@@ -75,7 +75,7 @@ export const data = [
     stack: ["JavaScript", "HTML5", "CSS3", "Webpack"],
   },
   {
-    image: "/public/images/bookstore.png",
+    image: "/images/bookstore.png",
     title: "Book Store",
     github: "https://github.com/tsheporamantso/bookstore",
     demo: "https://bookstore-hzhe.onrender.com/",
@@ -84,7 +84,7 @@ export const data = [
     stack: ["React", "Redux", "CSS3"],
   },
   {
-    image: "/public/images/mathmagician.png",
+    image: "/images/mathmagician.png",
     title: "Math Magician",
     github: "https://github.com/tsheporamantso/bookstore",
     demo: "https://math-magicians-app-eljm.onrender.com",

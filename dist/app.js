@@ -11,9 +11,14 @@ const env_1 = require("./utils/env");
 const router = require("./routes/projects");
 const notFound_1 = require("./middleware/notFound");
 const errorHandler_1 = require("./middleware/errorHandler");
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
+app.use((0, cors_1.default)({
+    origin: "http://localhost:3001",
+    credentials: true,
+}));
 app.use(express_1.default.json());
-app.use("/images", express_1.default.static(path_1.default.join(__dirname, "public/images")));
+app.use("/images", express_1.default.static(path_1.default.join(process.cwd(), "public/images")));
 app.use("/api/v1/projects", router);
 app.use(notFound_1.notFound);
 app.use(errorHandler_1.errorHandlerMiddleware);

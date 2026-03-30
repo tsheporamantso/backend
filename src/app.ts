@@ -6,14 +6,24 @@ import { getEnvVariable } from "./utils/env";
 const router = require("./routes/projects");
 import { notFound } from "./middleware/notFound";
 import { errorHandlerMiddleware } from "./middleware/errorHandler";
+import cors from "cors";
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:3001",
+    credentials: true,
+  }),
+);
+
+// app.options("*", cors());
 
 // body parse
 app.use(express.json());
 
 // static files
-app.use("/images", express.static(path.join(__dirname, "public/images")));
+app.use("/images", express.static(path.join(process.cwd(), "public/images")));
 
 // routes
 app.use("/api/v1/projects", router);
