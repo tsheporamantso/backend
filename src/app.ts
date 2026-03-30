@@ -12,15 +12,10 @@ const app = express();
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:3001",
-      "https://personal-portfolio-data.onrender.com",
-    ],
+    origin: ["http://localhost:3001", "https://gladwinramantso.netlify.app"],
     credentials: true,
   }),
 );
-
-// app.options("*", cors());
 
 // body parse
 app.use(express.json());
