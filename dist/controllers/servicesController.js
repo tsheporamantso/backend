@@ -3,16 +3,58 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const async_1 = require("../middleware/async");
 const Service_1 = __importDefault(require("../models/Service"));
+const async_1 = require("../middleware/async");
+const custom_error_1 = require("../errors/custom-error");
 const getServices = (0, async_1.asyncWrapper)(async (req, res) => {
-    res.status(200).json({ msg: "get all services" });
+    const services = await Service_1.default.find({});
+    res.status(200).json({ nbHits: services.length, success: true, services });
 });
 const createService = (0, async_1.asyncWrapper)(async (req, res) => {
     const service = await Service_1.default.create(req.body);
-    res.status(200).json({ success: true, service });
+    res.status(201).json({ success: true, service });
+});
+const getSingleService = (0, async_1.asyncWrapper)(async (req, res, next) => {
+    const { id: serviceID } = req.params;
+    const service = await Service_1.default.findOne({ _id: serviceID });
+    if (!service) {
+        return next((0, custom_error_1.createCustomError)(`No service with id: ${serviceID}`, 404));
+    }
+    res.status(200).json({
+        success: true,
+        service,
+    });
+});
+const updateService = (0, async_1.asyncWrapper)(async (req, res, next) => {
+    const { id: serviceID } = req.params;
+    const service = await Service_1.default.findOneAndUpdate({ _id: serviceID }, req.body, {
+        returnDocument: "after",
+        runValidators: true,
+    });
+    if (!service) {
+        return next((0, custom_error_1.createCustomError)(`No service with id: ${serviceID}`, 404));
+    }
+    res.status(200).json({
+        success: true,
+        service,
+    });
+});
+const deleteService = (0, async_1.asyncWrapper)(async (req, res, next) => {
+    const { id: serviceID } = req.params;
+    const service = await Service_1.default.findOneAndDelete({ _id: serviceID });
+    if (!service) {
+        return next((0, custom_error_1.createCustomError)(`No service with id: ${serviceID}`, 404));
+    }
+    res.status(200).json({
+        success: true,
+        msg: "project deleted successfully",
+        data: null,
+    });
 });
 module.exports = {
     getServices,
     createService,
+    getSingleService,
+    updateService,
+    deleteService,
 };
