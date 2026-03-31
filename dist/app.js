@@ -9,6 +9,7 @@ const express_1 = __importDefault(require("express"));
 const connect_1 = __importDefault(require("./db/connect"));
 const env_1 = require("./utils/env");
 const router = require("./routes/projects");
+const servicesRouter = require("./routes/services");
 const notFound_1 = require("./middleware/notFound");
 const errorHandler_1 = require("./middleware/errorHandler");
 const cors_1 = __importDefault(require("cors"));
@@ -19,9 +20,8 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json());
 app.use("/images", express_1.default.static(path_1.default.join(process.cwd(), "public/images")));
-console.log("CORS FIX IS LIVE 🚀");
 app.use("/api/v1/projects", router);
-app.use("/api/v1/services");
+app.use("/api/v1/services", servicesRouter);
 app.use(notFound_1.notFound);
 app.use(errorHandler_1.errorHandlerMiddleware);
 const port = process.env.PORT || 3000;
