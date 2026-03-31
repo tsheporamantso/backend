@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface IService extends Document {
   title: string;
-  text: string;
+  text: string[];
 }
 
 const ServiceSchema: Schema = new Schema(
@@ -13,9 +13,8 @@ const ServiceSchema: Schema = new Schema(
       trim: true,
     },
     text: {
-      type: String,
-      required: [true, "Please provide service text"],
-      trim: true,
+      type: [String],
+      required: [true],
     },
   },
   { timestamps: true },

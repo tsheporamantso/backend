@@ -41,9 +41,8 @@ const ServiceSchema = new mongoose_1.Schema({
         trim: true,
     },
     text: {
-        type: String,
-        required: [true, "Please provide service text"],
-        trim: true,
+        type: [String],
+        required: [true],
     },
 }, { timestamps: true });
 exports.default = mongoose_1.default.model("Service", ServiceSchema);
