@@ -27,6 +27,7 @@ console.log("CORS FIX IS LIVE 🚀");
 
 // routes
 app.use("/api/v1/projects", router);
+app.use("/api/v1/services");
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
