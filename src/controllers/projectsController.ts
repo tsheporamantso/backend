@@ -75,7 +75,7 @@ const updateProject = asyncWrapper(
       { _id: projectID },
       req.body,
       {
-        new: true,
+        returnDocument: "after",
         runValidators: true,
       },
     );

@@ -56,7 +56,7 @@ const createProject = (0, async_1.asyncWrapper)(async (req, res) => {
 const updateProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
     const { id: projectID } = req.params;
     const project = await Project_1.default.findOneAndUpdate({ _id: projectID }, req.body, {
-        new: true,
+        returnDocument: "after",
         runValidators: true,
     });
     if (!project) {

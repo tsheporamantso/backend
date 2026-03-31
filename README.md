@@ -3,7 +3,7 @@
 <div align="center">
 
   <h1><b>PORTFOLIO DATA 📚</b></h1>
-  <!-- <img src ="./image.png" width="900"> -->
+  <img src ="./public/images/portfolio.png" width="900">
 </div>
 
 <!-- TABLE OF CONTENTS -->
