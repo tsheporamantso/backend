@@ -22,8 +22,12 @@ const TestimonialSchema: Schema = new Schema({
     required: true,
   },
   links: {
-    type: [String],
-    require: true,
+    linkedIn: {
+      type: String,
+    },
+    github: {
+      type: String,
+    },
   },
 });
 
