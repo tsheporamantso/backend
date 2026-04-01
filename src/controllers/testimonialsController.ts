@@ -37,8 +37,25 @@ const getSingleReviewer = asyncWrapper(
   },
 );
 
+const updateReviewer = asyncWrapper(async (req: Request, res: Response) => {
+  const { id: reviewerID } = req.params;
+  const testimonial = await Testimonial.findOneAndUpdate(
+    { _id: reviewerID },
+    req.body,
+    {
+      runValidators: true,
+      returnDocument: "after",
+    },
+  );
+  res.status(200).json({
+    success: true,
+    testimonial,
+  });
+});
+
 module.exports = {
   createReviewer,
   getAllReviewers,
   getSingleReviewer,
+  updateReviewer,
 };
