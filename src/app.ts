@@ -5,6 +5,7 @@ import connectDB from "./db/connect";
 import { getEnvVariable } from "./utils/env";
 const router = require("./routes/projects");
 const servicesRouter = require("./routes/services");
+const testimonialsRouter = require("./routes/testimonials");
 import { notFound } from "./middleware/notFound";
 import { errorHandlerMiddleware } from "./middleware/errorHandler";
 import cors from "cors";
@@ -27,6 +28,7 @@ app.use("/images", express.static(path.join(process.cwd(), "public/images")));
 // routes
 app.use("/api/v1/projects", router);
 app.use("/api/v1/services", servicesRouter);
+app.use("/api/v1/testimonials", testimonialsRouter);
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
