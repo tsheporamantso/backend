@@ -49,8 +49,12 @@ const TestimonialSchema = new mongoose_1.Schema({
         required: true,
     },
     links: {
-        type: [String],
-        require: true,
+        linkedIn: {
+            type: String,
+        },
+        github: {
+            type: String,
+        },
     },
 });
 exports.default = mongoose_1.default.model("Testimonial", TestimonialSchema);
