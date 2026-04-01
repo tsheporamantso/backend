@@ -27,7 +27,7 @@ const getSingleReviewer = asyncWrapper(
 
     if (!testimonial) {
       return next(
-        createCustomError(`No testimonial wit id: ${reviewerID}`, 404),
+        createCustomError(`No testimonial with id: ${reviewerID}`, 404),
       );
     }
     res.status(200).json({
@@ -37,25 +37,51 @@ const getSingleReviewer = asyncWrapper(
   },
 );
 
-const updateReviewer = asyncWrapper(async (req: Request, res: Response) => {
-  const { id: reviewerID } = req.params;
-  const testimonial = await Testimonial.findOneAndUpdate(
-    { _id: reviewerID },
-    req.body,
-    {
-      runValidators: true,
-      returnDocument: "after",
-    },
-  );
-  res.status(200).json({
-    success: true,
-    testimonial,
-  });
-});
+const updateReviewer = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id: reviewerID } = req.params;
+    const testimonial = await Testimonial.findOneAndUpdate(
+      { _id: reviewerID },
+      req.body,
+      {
+        runValidators: true,
+        returnDocument: "after",
+      },
+    );
+    if (!testimonial) {
+      return next(
+        createCustomError(`No testimonial with id: ${reviewerID}`, 404),
+      );
+    }
+    res.status(200).json({
+      success: true,
+      testimonial,
+    });
+  },
+);
+
+const deleteReviewer = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id: reviewerID } = req.params;
+    const testimonial = await Testimonial.findOneAndDelete({ _id: reviewerID });
+
+    if (!testimonial) {
+      return next(
+        createCustomError(`No testimonial with id: ${reviewerID}`, 404),
+      );
+    }
+    res.status(200).json({
+      success: true,
+      msg: "Testimonial successfully deleted.",
+      data: null,
+    });
+  },
+);
 
 module.exports = {
   createReviewer,
   getAllReviewers,
   getSingleReviewer,
   updateReviewer,
+  deleteReviewer,
 };
