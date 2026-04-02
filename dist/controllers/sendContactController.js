@@ -6,12 +6,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv").config();
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const custom_error_1 = require("../errors/custom-error");
+const Contact_1 = __importDefault(require("../models/Contact"));
 const sendContact = async (req, res, next) => {
     try {
         const { name, email, message } = req.body;
         if (!name || !email || !message) {
             return next((0, custom_error_1.createCustomError)("All fields required", 400));
         }
+        await Contact_1.default.create({
+            name,
+            email,
+            message,
+            ip: req.ip,
+        });
         const transporter = nodemailer_1.default.createTransport({
             service: "gmail",
             auth: {

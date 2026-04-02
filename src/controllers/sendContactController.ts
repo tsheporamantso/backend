@@ -2,6 +2,7 @@ require("dotenv").config();
 import nodemailer from "nodemailer";
 import { NextFunction, Request, Response } from "express";
 import { createCustomError } from "../errors/custom-error";
+import Contact from "../models/Contact";
 
 const sendContact = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -11,6 +12,15 @@ const sendContact = async (req: Request, res: Response, next: NextFunction) => {
       return next(createCustomError("All fields required", 400));
     }
 
+    // Save to DB
+    await Contact.create({
+      name,
+      email,
+      message,
+      ip: req.ip,
+    });
+
+    // Send email
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
