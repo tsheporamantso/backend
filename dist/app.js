@@ -28,6 +28,8 @@ app.use("/api/v1/testimonials", testimonialsRouter);
 app.use("/api/v1/contacts", sendContactRouter);
 app.use(notFound_1.notFound);
 app.use(errorHandler_1.errorHandlerMiddleware);
+console.log("EMAIL:", process.env.GMAIL_USER);
+console.log("PASS:", process.env.GMAIL_APP_PASSWORD ? "Loaded" : "Missing");
 const port = process.env.PORT || 3000;
 async function start() {
     try {
