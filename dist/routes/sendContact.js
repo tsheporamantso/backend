@@ -6,5 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const sendContactController = require("../controllers/sendContactController");
-router.route("/").post(sendContactController);
+const contactLimiter_1 = require("../controllers/contactLimiter");
+router.route("/").post(contactLimiter_1.contactLimiter, sendContactController);
 module.exports = router;
