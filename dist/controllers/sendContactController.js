@@ -7,11 +7,12 @@ require("dotenv").config();
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const custom_error_1 = require("../errors/custom-error");
 const Contact_1 = __importDefault(require("../models/Contact"));
+const http_status_codes_1 = require("http-status-codes");
 const sendContact = async (req, res, next) => {
     try {
         const { name, email, message } = req.body;
         if (!name || !email || !message) {
-            return next((0, custom_error_1.createCustomError)("All fields required", 400));
+            return next((0, custom_error_1.createCustomError)("All fields required", http_status_codes_1.StatusCodes.BAD_REQUEST));
         }
         await Contact_1.default.create({
             name,
@@ -38,14 +39,14 @@ const sendContact = async (req, res, next) => {
       <p><strong>Message:</strong> ${message}</p>
     `,
         });
-        res.status(200).json({
+        res.status(http_status_codes_1.StatusCodes.OK).json({
             success: true,
             msg: "Email sent successfully",
         });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({
+        res.status(http_status_codes_1.StatusCodes.INTERNAL_SERVER_ERROR).json({
             success: false,
             msg: "Failed to send message",
         });

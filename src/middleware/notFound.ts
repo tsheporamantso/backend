@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
 
 export function notFound(req: Request, res: Response) {
-  res.status(404).json({
+  res.status(StatusCodes.NOT_FOUND).json({
     msg: "Route not found",
   });
 }

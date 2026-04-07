@@ -2,6 +2,7 @@ import Project from "../models/Project";
 import { Request, Response, NextFunction } from "express";
 import { asyncWrapper } from "../middleware/async";
 import { createCustomError } from "../errors/custom-error";
+import { StatusCodes } from "http-status-codes";
 
 type ProjectQuery = {
   title?: string | { $regex: string; $options: string };
@@ -38,7 +39,7 @@ const getAllProjects = asyncWrapper(async (req: Request, res: Response) => {
   }
 
   const project = await result;
-  res.status(200).json({
+  res.status(StatusCodes.OK).json({
     nbHits: project.length,
     success: true,
     data: project,
@@ -50,10 +51,15 @@ const getSingleProject = asyncWrapper(
     const { id: projectID } = req.params;
     const project = await Project.findOne({ _id: projectID });
     if (!project) {
-      return next(createCustomError(`No project with id: ${projectID}`, 404));
+      return next(
+        createCustomError(
+          `No project with id: ${projectID}`,
+          StatusCodes.NOT_FOUND,
+        ),
+      );
     }
 
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       data: project,
     });
@@ -62,7 +68,7 @@ const getSingleProject = asyncWrapper(
 
 const createProject = asyncWrapper(async (req: Request, res: Response) => {
   const project = await Project.create(req.body);
-  res.status(201).json({
+  res.status(StatusCodes.CREATED).json({
     success: true,
     data: project,
   });
@@ -80,9 +86,14 @@ const updateProject = asyncWrapper(
       },
     );
     if (!project) {
-      return next(createCustomError(`No project with id: ${projectID}`, 404));
+      return next(
+        createCustomError(
+          `No project with id: ${projectID}`,
+          StatusCodes.NOT_FOUND,
+        ),
+      );
     }
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       data: project,
     });
@@ -94,9 +105,14 @@ const deleteProject = asyncWrapper(
     const { id: projectID } = req.params;
     const project = await Project.findOneAndDelete({ _id: projectID });
     if (!project) {
-      return next(createCustomError(`No project with id: ${projectID}`, 404));
+      return next(
+        createCustomError(
+          `No project with id: ${projectID}`,
+          StatusCodes.NOT_FOUND,
+        ),
+      );
     }
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       msg: "project deleted successfully",
       data: null,

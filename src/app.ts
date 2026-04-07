@@ -7,6 +7,7 @@ const router = require("./routes/projects");
 const servicesRouter = require("./routes/services");
 const testimonialsRouter = require("./routes/testimonials");
 const sendContactRouter = require("./routes/sendContact");
+const authRouter = require("./routes/auth");
 import { notFound } from "./middleware/notFound";
 import { errorHandlerMiddleware } from "./middleware/errorHandler";
 import cors from "cors";
@@ -31,11 +32,9 @@ app.use("/api/v1/projects", router);
 app.use("/api/v1/services", servicesRouter);
 app.use("/api/v1/testimonials", testimonialsRouter);
 app.use("/api/v1/contacts", sendContactRouter);
+app.use("/api/v1", authRouter);
 app.use(notFound);
 app.use(errorHandlerMiddleware);
-
-console.log("EMAIL:", process.env.GMAIL_USER);
-console.log("PASS:", process.env.GMAIL_APP_PASSWORD ? "Loaded" : "Missing");
 
 const port = process.env.PORT || 3000;
 
