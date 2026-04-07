@@ -2,10 +2,11 @@ import { Request, Response, NextFunction } from "express";
 import Testimonial from "../models/Testimonial";
 import { asyncWrapper } from "../middleware/async";
 import { createCustomError } from "../errors/custom-error";
+import { StatusCodes } from "http-status-codes";
 
 const getAllReviewers = asyncWrapper(async (req: Request, res: Response) => {
   const testimonial = await Testimonial.find({});
-  res.status(200).json({
+  res.status(StatusCodes.OK).json({
     success: true,
     testimonial,
     nbHits: testimonial.length,
@@ -14,7 +15,7 @@ const getAllReviewers = asyncWrapper(async (req: Request, res: Response) => {
 
 const createReviewer = asyncWrapper(async (req: Request, res: Response) => {
   const testimonial = await Testimonial.create(req.body);
-  res.status(201).json({
+  res.status(StatusCodes.CREATED).json({
     success: true,
     testimonial,
   });
@@ -27,10 +28,13 @@ const getSingleReviewer = asyncWrapper(
 
     if (!testimonial) {
       return next(
-        createCustomError(`No testimonial with id: ${reviewerID}`, 404),
+        createCustomError(
+          `No testimonial with id: ${reviewerID}`,
+          StatusCodes.NOT_FOUND,
+        ),
       );
     }
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       testimonial,
     });
@@ -50,10 +54,13 @@ const updateReviewer = asyncWrapper(
     );
     if (!testimonial) {
       return next(
-        createCustomError(`No testimonial with id: ${reviewerID}`, 404),
+        createCustomError(
+          `No testimonial with id: ${reviewerID}`,
+          StatusCodes.NOT_FOUND,
+        ),
       );
     }
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       testimonial,
     });
@@ -67,10 +74,13 @@ const deleteReviewer = asyncWrapper(
 
     if (!testimonial) {
       return next(
-        createCustomError(`No testimonial with id: ${reviewerID}`, 404),
+        createCustomError(
+          `No testimonial with id: ${reviewerID}`,
+          StatusCodes.NOT_FOUND,
+        ),
       );
     }
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       msg: "Testimonial successfully deleted.",
       data: null,

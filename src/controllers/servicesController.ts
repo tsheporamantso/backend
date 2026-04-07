@@ -2,15 +2,18 @@ import Service from "../models/Service";
 import { Request, Response, NextFunction } from "express";
 import { asyncWrapper } from "../middleware/async";
 import { createCustomError } from "../errors/custom-error";
+import { StatusCodes } from "http-status-codes";
 
 const getServices = asyncWrapper(async (req: Request, res: Response) => {
   const services = await Service.find({});
-  res.status(200).json({ nbHits: services.length, success: true, services });
+  res
+    .status(StatusCodes.OK)
+    .json({ nbHits: services.length, success: true, services });
 });
 
 const createService = asyncWrapper(async (req: Request, res: Response) => {
   const service = await Service.create(req.body);
-  res.status(201).json({ success: true, service });
+  res.status(StatusCodes.CREATED).json({ success: true, service });
 });
 
 const getSingleService = asyncWrapper(
@@ -18,9 +21,14 @@ const getSingleService = asyncWrapper(
     const { id: serviceID } = req.params;
     const service = await Service.findOne({ _id: serviceID });
     if (!service) {
-      return next(createCustomError(`No service with id: ${serviceID}`, 404));
+      return next(
+        createCustomError(
+          `No service with id: ${serviceID}`,
+          StatusCodes.NOT_FOUND,
+        ),
+      );
     }
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       service,
     });
@@ -39,9 +47,14 @@ const updateService = asyncWrapper(
       },
     );
     if (!service) {
-      return next(createCustomError(`No service with id: ${serviceID}`, 404));
+      return next(
+        createCustomError(
+          `No service with id: ${serviceID}`,
+          StatusCodes.NOT_FOUND,
+        ),
+      );
     }
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       service,
     });
@@ -54,9 +67,14 @@ const deleteService = asyncWrapper(
     const service = await Service.findOneAndDelete({ _id: serviceID });
 
     if (!service) {
-      return next(createCustomError(`No service with id: ${serviceID}`, 404));
+      return next(
+        createCustomError(
+          `No service with id: ${serviceID}`,
+          StatusCodes.NOT_FOUND,
+        ),
+      );
     }
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       msg: "project deleted successfully",
       data: null,

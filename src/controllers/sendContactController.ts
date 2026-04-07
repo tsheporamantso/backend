@@ -3,13 +3,16 @@ import nodemailer from "nodemailer";
 import { NextFunction, Request, Response } from "express";
 import { createCustomError } from "../errors/custom-error";
 import Contact from "../models/Contact";
+import { StatusCodes } from "http-status-codes";
 
 const sendContact = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name, email, message } = req.body;
 
     if (!name || !email || !message) {
-      return next(createCustomError("All fields required", 400));
+      return next(
+        createCustomError("All fields required", StatusCodes.BAD_REQUEST),
+      );
     }
 
     // Save to DB
@@ -41,13 +44,13 @@ const sendContact = async (req: Request, res: Response, next: NextFunction) => {
       <p><strong>Message:</strong> ${message}</p>
     `,
     });
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       success: true,
       msg: "Email sent successfully",
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       success: false,
       msg: "Failed to send message",
     });

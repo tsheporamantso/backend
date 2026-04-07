@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Project_1 = __importDefault(require("../models/Project"));
 const async_1 = require("../middleware/async");
 const custom_error_1 = require("../errors/custom-error");
+const http_status_codes_1 = require("http-status-codes");
 const getAllProjects = (0, async_1.asyncWrapper)(async (req, res) => {
     const { title, sort, stack, fields } = req.query;
     const queryObject = {};
@@ -29,7 +30,7 @@ const getAllProjects = (0, async_1.asyncWrapper)(async (req, res) => {
         result = result.select(fieldsList);
     }
     const project = await result;
-    res.status(200).json({
+    res.status(http_status_codes_1.StatusCodes.OK).json({
         nbHits: project.length,
         success: true,
         data: project,
@@ -39,16 +40,16 @@ const getSingleProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
     const { id: projectID } = req.params;
     const project = await Project_1.default.findOne({ _id: projectID });
     if (!project) {
-        return next((0, custom_error_1.createCustomError)(`No project with id: ${projectID}`, 404));
+        return next((0, custom_error_1.createCustomError)(`No project with id: ${projectID}`, http_status_codes_1.StatusCodes.NOT_FOUND));
     }
-    res.status(200).json({
+    res.status(http_status_codes_1.StatusCodes.OK).json({
         success: true,
         data: project,
     });
 });
 const createProject = (0, async_1.asyncWrapper)(async (req, res) => {
     const project = await Project_1.default.create(req.body);
-    res.status(201).json({
+    res.status(http_status_codes_1.StatusCodes.CREATED).json({
         success: true,
         data: project,
     });
@@ -60,9 +61,9 @@ const updateProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
         runValidators: true,
     });
     if (!project) {
-        return next((0, custom_error_1.createCustomError)(`No project with id: ${projectID}`, 404));
+        return next((0, custom_error_1.createCustomError)(`No project with id: ${projectID}`, http_status_codes_1.StatusCodes.NOT_FOUND));
     }
-    res.status(200).json({
+    res.status(http_status_codes_1.StatusCodes.OK).json({
         success: true,
         data: project,
     });
@@ -71,9 +72,9 @@ const deleteProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
     const { id: projectID } = req.params;
     const project = await Project_1.default.findOneAndDelete({ _id: projectID });
     if (!project) {
-        return next((0, custom_error_1.createCustomError)(`No project with id: ${projectID}`, 404));
+        return next((0, custom_error_1.createCustomError)(`No project with id: ${projectID}`, http_status_codes_1.StatusCodes.NOT_FOUND));
     }
-    res.status(200).json({
+    res.status(http_status_codes_1.StatusCodes.OK).json({
         success: true,
         msg: "project deleted successfully",
         data: null,

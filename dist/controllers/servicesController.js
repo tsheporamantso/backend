@@ -6,21 +6,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Service_1 = __importDefault(require("../models/Service"));
 const async_1 = require("../middleware/async");
 const custom_error_1 = require("../errors/custom-error");
+const http_status_codes_1 = require("http-status-codes");
 const getServices = (0, async_1.asyncWrapper)(async (req, res) => {
     const services = await Service_1.default.find({});
-    res.status(200).json({ nbHits: services.length, success: true, services });
+    res
+        .status(http_status_codes_1.StatusCodes.OK)
+        .json({ nbHits: services.length, success: true, services });
 });
 const createService = (0, async_1.asyncWrapper)(async (req, res) => {
     const service = await Service_1.default.create(req.body);
-    res.status(201).json({ success: true, service });
+    res.status(http_status_codes_1.StatusCodes.CREATED).json({ success: true, service });
 });
 const getSingleService = (0, async_1.asyncWrapper)(async (req, res, next) => {
     const { id: serviceID } = req.params;
     const service = await Service_1.default.findOne({ _id: serviceID });
     if (!service) {
-        return next((0, custom_error_1.createCustomError)(`No service with id: ${serviceID}`, 404));
+        return next((0, custom_error_1.createCustomError)(`No service with id: ${serviceID}`, http_status_codes_1.StatusCodes.NOT_FOUND));
     }
-    res.status(200).json({
+    res.status(http_status_codes_1.StatusCodes.OK).json({
         success: true,
         service,
     });
@@ -32,9 +35,9 @@ const updateService = (0, async_1.asyncWrapper)(async (req, res, next) => {
         runValidators: true,
     });
     if (!service) {
-        return next((0, custom_error_1.createCustomError)(`No service with id: ${serviceID}`, 404));
+        return next((0, custom_error_1.createCustomError)(`No service with id: ${serviceID}`, http_status_codes_1.StatusCodes.NOT_FOUND));
     }
-    res.status(200).json({
+    res.status(http_status_codes_1.StatusCodes.OK).json({
         success: true,
         service,
     });
@@ -43,9 +46,9 @@ const deleteService = (0, async_1.asyncWrapper)(async (req, res, next) => {
     const { id: serviceID } = req.params;
     const service = await Service_1.default.findOneAndDelete({ _id: serviceID });
     if (!service) {
-        return next((0, custom_error_1.createCustomError)(`No service with id: ${serviceID}`, 404));
+        return next((0, custom_error_1.createCustomError)(`No service with id: ${serviceID}`, http_status_codes_1.StatusCodes.NOT_FOUND));
     }
-    res.status(200).json({
+    res.status(http_status_codes_1.StatusCodes.OK).json({
         success: true,
         msg: "project deleted successfully",
         data: null,
