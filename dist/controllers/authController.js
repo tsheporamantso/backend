@@ -27,19 +27,9 @@ exports.login = (0, async_1.asyncWrapper)(async (req, res) => {
     });
 });
 exports.dashboard = (0, async_1.asyncWrapper)(async (req, res) => {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        throw new custom_error_1.CustomAPIError("Invalid credentials to access this route", http_status_codes_1.StatusCodes.UNAUTHORIZED);
-    }
-    const token = authHeader.split(" ")[1];
-    try {
-        const decoded = jsonwebtoken_1.default.verify(token, (0, env_1.getEnvVariable)("JWT_SECRET"));
-        res.status(http_status_codes_1.StatusCodes.OK).json({
-            success: true,
-            msg: `Welcome ${decoded.username}`,
-        });
-    }
-    catch (error) {
-        throw new custom_error_1.CustomAPIError("Not authorized to access this route", http_status_codes_1.StatusCodes.UNAUTHORIZED);
-    }
+    const authReq = req;
+    res.status(http_status_codes_1.StatusCodes.OK).json({
+        success: true,
+        msg: `Welcome ${authReq.user?.username}`,
+    });
 });

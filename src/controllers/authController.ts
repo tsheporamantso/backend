@@ -5,6 +5,7 @@ import { StatusCodes } from "http-status-codes";
 import { asyncWrapper } from "../middleware/async";
 import { CustomAPIError } from "../errors/custom-error";
 import { getEnvVariable } from "../utils/env";
+import { AuthRequest } from "../types/auth";
 
 export const login = asyncWrapper(async (req: Request, res: Response) => {
   const { username, password } = req.body;
@@ -36,34 +37,9 @@ export const login = asyncWrapper(async (req: Request, res: Response) => {
 });
 
 export const dashboard = asyncWrapper(async (req: Request, res: Response) => {
-  interface JWTPayloadTypes {
-    id: number;
-    username: string;
-  }
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    throw new CustomAPIError(
-      "Invalid credentials to access this route",
-      StatusCodes.UNAUTHORIZED,
-    );
-  }
-
-  const token = authHeader.split(" ")[1];
-
-  try {
-    const decoded = jwt.verify(
-      token,
-      getEnvVariable("JWT_SECRET"),
-    ) as JWTPayloadTypes;
-    res.status(StatusCodes.OK).json({
-      success: true,
-      msg: `Welcome ${decoded.username}`,
-    });
-  } catch (error) {
-    throw new CustomAPIError(
-      "Not authorized to access this route",
-      StatusCodes.UNAUTHORIZED,
-    );
-  }
+  const authReq = req as AuthRequest;
+  res.status(StatusCodes.OK).json({
+    success: true,
+    msg: `Welcome ${authReq.user?.username}`,
+  });
 });

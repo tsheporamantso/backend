@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
 const authController_1 = require("../controllers/authController");
+const authMiddleware_1 = require("../middleware/authMiddleware");
 router.route("/login").post(authController_1.login);
-router.route("/dashboard").get(authController_1.dashboard);
+router.route("/dashboard").get(authMiddleware_1.authenticationMiddleware, authController_1.dashboard);
 module.exports = router;
