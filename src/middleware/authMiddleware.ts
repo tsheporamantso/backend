@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { CustomAPIError } from "../errors/custom-error";
+import { UnauthenticatedError } from "../errors/unauthenticated";
 import jwt from "jsonwebtoken";
 import { StatusCodes } from "http-status-codes";
 import { getEnvVariable } from "../utils/env";
@@ -18,10 +18,7 @@ export const authenticationMiddleware = async (
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    throw new CustomAPIError(
-      "Invalid credentials to access this route",
-      StatusCodes.UNAUTHORIZED,
-    );
+    throw new UnauthenticatedError("Invalid credentials to access this route");
   }
   const token = authHeader.split(" ")[1];
 
@@ -35,9 +32,6 @@ export const authenticationMiddleware = async (
     authReq.user = { id, username };
     next();
   } catch (error) {
-    throw new CustomAPIError(
-      "Not authorized to access this route",
-      StatusCodes.UNAUTHORIZED,
-    );
+    throw new UnauthenticatedError("Not authorized to access this route");
   }
 };

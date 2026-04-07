@@ -8,12 +8,12 @@ require("dotenv").config();
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const http_status_codes_1 = require("http-status-codes");
 const async_1 = require("../middleware/async");
-const custom_error_1 = require("../errors/custom-error");
+const bad_request_1 = require("../errors/bad-request");
 const env_1 = require("../utils/env");
 exports.login = (0, async_1.asyncWrapper)(async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
-        throw new custom_error_1.CustomAPIError("Please provide username and password", http_status_codes_1.StatusCodes.BAD_REQUEST);
+        throw new bad_request_1.BadRequest("Please provide username and password");
     }
     const id = new Date().getDate();
     const options = {

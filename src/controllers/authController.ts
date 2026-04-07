@@ -3,7 +3,7 @@ import jwt, { SignOptions } from "jsonwebtoken";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { asyncWrapper } from "../middleware/async";
-import { CustomAPIError } from "../errors/custom-error";
+import { BadRequest } from "../errors/bad-request";
 import { getEnvVariable } from "../utils/env";
 import { AuthRequest } from "../types/auth";
 
@@ -11,10 +11,7 @@ export const login = asyncWrapper(async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
-    throw new CustomAPIError(
-      "Please provide username and password",
-      StatusCodes.BAD_REQUEST,
-    );
+    throw new BadRequest("Please provide username and password");
   }
 
   const id = new Date().getDate();

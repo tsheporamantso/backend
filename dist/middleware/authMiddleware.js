@@ -4,14 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authenticationMiddleware = void 0;
-const custom_error_1 = require("../errors/custom-error");
+const unauthenticated_1 = require("../errors/unauthenticated");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const http_status_codes_1 = require("http-status-codes");
 const env_1 = require("../utils/env");
 const authenticationMiddleware = async (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        throw new custom_error_1.CustomAPIError("Invalid credentials to access this route", http_status_codes_1.StatusCodes.UNAUTHORIZED);
+        throw new unauthenticated_1.UnauthenticatedError("Invalid credentials to access this route");
     }
     const token = authHeader.split(" ")[1];
     try {
@@ -22,7 +21,7 @@ const authenticationMiddleware = async (req, res, next) => {
         next();
     }
     catch (error) {
-        throw new custom_error_1.CustomAPIError("Not authorized to access this route", http_status_codes_1.StatusCodes.UNAUTHORIZED);
+        throw new unauthenticated_1.UnauthenticatedError("Not authorized to access this route");
     }
 };
 exports.authenticationMiddleware = authenticationMiddleware;
