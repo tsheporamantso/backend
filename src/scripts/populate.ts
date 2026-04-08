@@ -1,4 +1,4 @@
-require("dotenv").config();
+import "dotenv/config";
 
 import Project from "../models/Project";
 import connectDB from "../db/connect";

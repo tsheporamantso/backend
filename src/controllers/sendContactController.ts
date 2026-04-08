@@ -1,4 +1,4 @@
-require("dotenv").config();
+import "dotenv/config";
 import nodemailer from "nodemailer";
 import { NextFunction, Request, Response } from "express";
 import { createCustomError } from "../errors/custom-error";

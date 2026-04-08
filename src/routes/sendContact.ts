@@ -2,7 +2,7 @@ import express from "express";
 
 const router = express.Router();
 
-const sendContactController = require("../controllers/sendContactController");
+import sendContactController from "../controllers/sendContactController";
 
 import { contactLimiter } from "../controllers/contactLimiter";
 
