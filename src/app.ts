@@ -36,6 +36,8 @@ app.use("/api/v1", authRouter);
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
+console.log("conventional commit test");
+
 const port = process.env.PORT || 3000;
 
 async function start() {
