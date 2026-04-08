@@ -5,11 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
-const { createReviewer, getAllReviewers, getSingleReviewer, updateReviewer, deleteReviewer, } = require("../controllers/testimonialsController");
-router.route("/").post(createReviewer).get(getAllReviewers);
+const testimonialsController_1 = require("../controllers/testimonialsController");
+router.route("/").post(testimonialsController_1.createReviewer).get(testimonialsController_1.getAllReviewers);
 router
     .route("/:id")
-    .get(getSingleReviewer)
-    .patch(updateReviewer)
-    .delete(deleteReviewer);
-module.exports = router;
+    .get(testimonialsController_1.getSingleReviewer)
+    .patch(testimonialsController_1.updateReviewer)
+    .delete(testimonialsController_1.deleteReviewer);
+exports.default = router;

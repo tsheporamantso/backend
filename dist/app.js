@@ -3,16 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv").config();
+require("dotenv/config");
 const path_1 = __importDefault(require("path"));
 const express_1 = __importDefault(require("express"));
 const connect_1 = __importDefault(require("./db/connect"));
 const env_1 = require("./utils/env");
-const router = require("./routes/projects");
-const servicesRouter = require("./routes/services");
-const testimonialsRouter = require("./routes/testimonials");
-const sendContactRouter = require("./routes/sendContact");
-const authRouter = require("./routes/auth");
+const projects_1 = __importDefault(require("./routes/projects"));
+const services_1 = __importDefault(require("./routes/services"));
+const testimonials_1 = __importDefault(require("./routes/testimonials"));
+const sendContact_1 = __importDefault(require("./routes/sendContact"));
+const auth_1 = __importDefault(require("./routes/auth"));
 const notFound_1 = require("./middleware/notFound");
 const errorHandler_1 = require("./middleware/errorHandler");
 const cors_1 = __importDefault(require("cors"));
@@ -23,13 +23,14 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json());
 app.use("/images", express_1.default.static(path_1.default.join(process.cwd(), "public/images")));
-app.use("/api/v1/projects", router);
-app.use("/api/v1/services", servicesRouter);
-app.use("/api/v1/testimonials", testimonialsRouter);
-app.use("/api/v1/contacts", sendContactRouter);
-app.use("/api/v1", authRouter);
+app.use("/api/v1/projects", projects_1.default);
+app.use("/api/v1/services", services_1.default);
+app.use("/api/v1/testimonials", testimonials_1.default);
+app.use("/api/v1/contacts", sendContact_1.default);
+app.use("/api/v1/auth", auth_1.default);
 app.use(notFound_1.notFound);
 app.use(errorHandler_1.errorHandlerMiddleware);
+console.log("conventional commit test");
 const port = process.env.PORT || 3000;
 async function start() {
     try {

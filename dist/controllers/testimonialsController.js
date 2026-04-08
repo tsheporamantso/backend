@@ -3,11 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteReviewer = exports.updateReviewer = exports.getSingleReviewer = exports.createReviewer = exports.getAllReviewers = void 0;
 const Testimonial_1 = __importDefault(require("../models/Testimonial"));
 const async_1 = require("../middleware/async");
 const custom_error_1 = require("../errors/custom-error");
 const http_status_codes_1 = require("http-status-codes");
-const getAllReviewers = (0, async_1.asyncWrapper)(async (req, res) => {
+exports.getAllReviewers = (0, async_1.asyncWrapper)(async (req, res) => {
     const testimonial = await Testimonial_1.default.find({});
     res.status(http_status_codes_1.StatusCodes.OK).json({
         success: true,
@@ -15,14 +16,14 @@ const getAllReviewers = (0, async_1.asyncWrapper)(async (req, res) => {
         nbHits: testimonial.length,
     });
 });
-const createReviewer = (0, async_1.asyncWrapper)(async (req, res) => {
+exports.createReviewer = (0, async_1.asyncWrapper)(async (req, res) => {
     const testimonial = await Testimonial_1.default.create(req.body);
     res.status(http_status_codes_1.StatusCodes.CREATED).json({
         success: true,
         testimonial,
     });
 });
-const getSingleReviewer = (0, async_1.asyncWrapper)(async (req, res, next) => {
+exports.getSingleReviewer = (0, async_1.asyncWrapper)(async (req, res, next) => {
     const { id: reviewerID } = req.params;
     const testimonial = await Testimonial_1.default.findOne({ _id: reviewerID });
     if (!testimonial) {
@@ -33,7 +34,7 @@ const getSingleReviewer = (0, async_1.asyncWrapper)(async (req, res, next) => {
         testimonial,
     });
 });
-const updateReviewer = (0, async_1.asyncWrapper)(async (req, res, next) => {
+exports.updateReviewer = (0, async_1.asyncWrapper)(async (req, res, next) => {
     const { id: reviewerID } = req.params;
     const testimonial = await Testimonial_1.default.findOneAndUpdate({ _id: reviewerID }, req.body, {
         runValidators: true,
@@ -47,7 +48,7 @@ const updateReviewer = (0, async_1.asyncWrapper)(async (req, res, next) => {
         testimonial,
     });
 });
-const deleteReviewer = (0, async_1.asyncWrapper)(async (req, res, next) => {
+exports.deleteReviewer = (0, async_1.asyncWrapper)(async (req, res, next) => {
     const { id: reviewerID } = req.params;
     const testimonial = await Testimonial_1.default.findOneAndDelete({ _id: reviewerID });
     if (!testimonial) {
@@ -59,10 +60,3 @@ const deleteReviewer = (0, async_1.asyncWrapper)(async (req, res, next) => {
         data: null,
     });
 });
-module.exports = {
-    createReviewer,
-    getAllReviewers,
-    getSingleReviewer,
-    updateReviewer,
-    deleteReviewer,
-};

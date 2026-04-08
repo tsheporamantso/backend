@@ -4,24 +4,28 @@ import { asyncWrapper } from "../middleware/async";
 import { createCustomError } from "../errors/custom-error";
 import { StatusCodes } from "http-status-codes";
 
-const getAllReviewers = asyncWrapper(async (req: Request, res: Response) => {
-  const testimonial = await Testimonial.find({});
-  res.status(StatusCodes.OK).json({
-    success: true,
-    testimonial,
-    nbHits: testimonial.length,
-  });
-});
+export const getAllReviewers = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const testimonial = await Testimonial.find({});
+    res.status(StatusCodes.OK).json({
+      success: true,
+      testimonial,
+      nbHits: testimonial.length,
+    });
+  },
+);
 
-const createReviewer = asyncWrapper(async (req: Request, res: Response) => {
-  const testimonial = await Testimonial.create(req.body);
-  res.status(StatusCodes.CREATED).json({
-    success: true,
-    testimonial,
-  });
-});
+export const createReviewer = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const testimonial = await Testimonial.create(req.body);
+    res.status(StatusCodes.CREATED).json({
+      success: true,
+      testimonial,
+    });
+  },
+);
 
-const getSingleReviewer = asyncWrapper(
+export const getSingleReviewer = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id: reviewerID } = req.params;
     const testimonial = await Testimonial.findOne({ _id: reviewerID });
@@ -41,7 +45,7 @@ const getSingleReviewer = asyncWrapper(
   },
 );
 
-const updateReviewer = asyncWrapper(
+export const updateReviewer = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id: reviewerID } = req.params;
     const testimonial = await Testimonial.findOneAndUpdate(
@@ -67,7 +71,7 @@ const updateReviewer = asyncWrapper(
   },
 );
 
-const deleteReviewer = asyncWrapper(
+export const deleteReviewer = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id: reviewerID } = req.params;
     const testimonial = await Testimonial.findOneAndDelete({ _id: reviewerID });
@@ -87,11 +91,3 @@ const deleteReviewer = asyncWrapper(
     });
   },
 );
-
-module.exports = {
-  createReviewer,
-  getAllReviewers,
-  getSingleReviewer,
-  updateReviewer,
-  deleteReviewer,
-};

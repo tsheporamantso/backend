@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv").config();
+require("dotenv/config");
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const custom_error_1 = require("../errors/custom-error");
 const Contact_1 = __importDefault(require("../models/Contact"));
@@ -52,4 +52,4 @@ const sendContact = async (req, res, next) => {
         });
     }
 };
-module.exports = sendContact;
+exports.default = sendContact;

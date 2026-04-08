@@ -5,11 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
-const { getServices, createService, getSingleService, updateService, deleteService, } = require("../controllers/servicesController");
-router.route("/").get(getServices).post(createService);
+const servicesController_1 = require("../controllers/servicesController");
+router.route("/").get(servicesController_1.getServices).post(servicesController_1.createService);
 router
     .route("/:id")
-    .get(getSingleService)
-    .patch(updateService)
-    .delete(deleteService);
-module.exports = router;
+    .get(servicesController_1.getSingleService)
+    .patch(servicesController_1.updateService)
+    .delete(servicesController_1.deleteService);
+exports.default = router;

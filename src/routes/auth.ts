@@ -8,4 +8,4 @@ import { authenticationMiddleware } from "../middleware/authMiddleware";
 router.route("/login").post(login);
 router.route("/dashboard").get(authenticationMiddleware, dashboard);
 
-module.exports = router;
+export default router;

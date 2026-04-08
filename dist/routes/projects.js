@@ -5,11 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
-const { getAllProjects, getSingleProject, createProject, updateProject, deleteProject, } = require("../controllers/projectsController");
-router.route("/").get(getAllProjects).post(createProject);
+const projectsController_1 = require("../controllers/projectsController");
+router.route("/").get(projectsController_1.getAllProjects).post(projectsController_1.createProject);
 router
     .route("/:id")
-    .get(getSingleProject)
-    .patch(updateProject)
-    .delete(deleteProject);
-module.exports = router;
+    .get(projectsController_1.getSingleProject)
+    .patch(projectsController_1.updateProject)
+    .delete(projectsController_1.deleteProject);
+exports.default = router;

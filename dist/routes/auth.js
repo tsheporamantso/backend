@@ -9,4 +9,4 @@ const authController_1 = require("../controllers/authController");
 const authMiddleware_1 = require("../middleware/authMiddleware");
 router.route("/login").post(authController_1.login);
 router.route("/dashboard").get(authMiddleware_1.authenticationMiddleware, authController_1.dashboard);
-module.exports = router;
+exports.default = router;

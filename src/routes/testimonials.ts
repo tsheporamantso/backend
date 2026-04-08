@@ -17,4 +17,4 @@ router
   .patch(updateReviewer)
   .delete(deleteReviewer);
 
-module.exports = router;
+export default router;

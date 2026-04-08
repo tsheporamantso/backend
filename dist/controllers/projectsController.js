@@ -3,11 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteProject = exports.updateProject = exports.createProject = exports.getSingleProject = exports.getAllProjects = void 0;
 const Project_1 = __importDefault(require("../models/Project"));
 const async_1 = require("../middleware/async");
 const custom_error_1 = require("../errors/custom-error");
 const http_status_codes_1 = require("http-status-codes");
-const getAllProjects = (0, async_1.asyncWrapper)(async (req, res) => {
+exports.getAllProjects = (0, async_1.asyncWrapper)(async (req, res) => {
     const { title, sort, stack, fields } = req.query;
     const queryObject = {};
     if (typeof title === "string") {
@@ -36,7 +37,7 @@ const getAllProjects = (0, async_1.asyncWrapper)(async (req, res) => {
         data: project,
     });
 });
-const getSingleProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
+exports.getSingleProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
     const { id: projectID } = req.params;
     const project = await Project_1.default.findOne({ _id: projectID });
     if (!project) {
@@ -47,14 +48,14 @@ const getSingleProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
         data: project,
     });
 });
-const createProject = (0, async_1.asyncWrapper)(async (req, res) => {
+exports.createProject = (0, async_1.asyncWrapper)(async (req, res) => {
     const project = await Project_1.default.create(req.body);
     res.status(http_status_codes_1.StatusCodes.CREATED).json({
         success: true,
         data: project,
     });
 });
-const updateProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
+exports.updateProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
     const { id: projectID } = req.params;
     const project = await Project_1.default.findOneAndUpdate({ _id: projectID }, req.body, {
         returnDocument: "after",
@@ -68,7 +69,7 @@ const updateProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
         data: project,
     });
 });
-const deleteProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
+exports.deleteProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
     const { id: projectID } = req.params;
     const project = await Project_1.default.findOneAndDelete({ _id: projectID });
     if (!project) {
@@ -80,10 +81,3 @@ const deleteProject = (0, async_1.asyncWrapper)(async (req, res, next) => {
         data: null,
     });
 });
-module.exports = {
-    getAllProjects,
-    getSingleProject,
-    createProject,
-    updateProject,
-    deleteProject,
-};

@@ -4,19 +4,21 @@ import { asyncWrapper } from "../middleware/async";
 import { createCustomError } from "../errors/custom-error";
 import { StatusCodes } from "http-status-codes";
 
-const getServices = asyncWrapper(async (req: Request, res: Response) => {
+export const getServices = asyncWrapper(async (req: Request, res: Response) => {
   const services = await Service.find({});
   res
     .status(StatusCodes.OK)
     .json({ nbHits: services.length, success: true, services });
 });
 
-const createService = asyncWrapper(async (req: Request, res: Response) => {
-  const service = await Service.create(req.body);
-  res.status(StatusCodes.CREATED).json({ success: true, service });
-});
+export const createService = asyncWrapper(
+  async (req: Request, res: Response) => {
+    const service = await Service.create(req.body);
+    res.status(StatusCodes.CREATED).json({ success: true, service });
+  },
+);
 
-const getSingleService = asyncWrapper(
+export const getSingleService = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id: serviceID } = req.params;
     const service = await Service.findOne({ _id: serviceID });
@@ -35,7 +37,7 @@ const getSingleService = asyncWrapper(
   },
 );
 
-const updateService = asyncWrapper(
+export const updateService = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id: serviceID } = req.params;
     const service = await Service.findOneAndUpdate(
@@ -61,7 +63,7 @@ const updateService = asyncWrapper(
   },
 );
 
-const deleteService = asyncWrapper(
+export const deleteService = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id: serviceID } = req.params;
     const service = await Service.findOneAndDelete({ _id: serviceID });
@@ -81,11 +83,3 @@ const deleteService = asyncWrapper(
     });
   },
 );
-
-module.exports = {
-  getServices,
-  createService,
-  getSingleService,
-  updateService,
-  deleteService,
-};

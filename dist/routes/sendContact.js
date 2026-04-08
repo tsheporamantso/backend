@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
-const sendContactController = require("../controllers/sendContactController");
+const sendContactController_1 = __importDefault(require("../controllers/sendContactController"));
 const contactLimiter_1 = require("../controllers/contactLimiter");
-router.route("/").post(contactLimiter_1.contactLimiter, sendContactController);
-module.exports = router;
+router.route("/").post(contactLimiter_1.contactLimiter, sendContactController_1.default);
+exports.default = router;

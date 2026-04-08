@@ -8,4 +8,4 @@ import { contactLimiter } from "../controllers/contactLimiter";
 
 router.route("/").post(contactLimiter, sendContactController);
 
-module.exports = router;
+export default router;

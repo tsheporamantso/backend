@@ -32,7 +32,7 @@ app.use("/api/v1/projects", router);
 app.use("/api/v1/services", servicesRouter);
 app.use("/api/v1/testimonials", testimonialsRouter);
 app.use("/api/v1/contacts", sendContactRouter);
-app.use("/api/v1", authRouter);
+app.use("/api/v1/auth", authRouter);
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 

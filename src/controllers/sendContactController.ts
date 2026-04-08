@@ -57,4 +57,4 @@ const sendContact = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-module.exports = sendContact;
+export default sendContact;
