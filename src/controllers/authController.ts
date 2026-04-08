@@ -1,4 +1,4 @@
-require("dotenv").config();
+import "dotenv/config";
 import jwt, { SignOptions } from "jsonwebtoken";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";

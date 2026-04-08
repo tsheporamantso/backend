@@ -2,13 +2,13 @@ import express from "express";
 
 const router = express.Router();
 
-const {
+import {
   getAllProjects,
   getSingleProject,
   createProject,
   updateProject,
   deleteProject,
-} = require("../controllers/projectsController");
+} from "../controllers/projectsController";
 
 router.route("/").get(getAllProjects).post(createProject);
 router

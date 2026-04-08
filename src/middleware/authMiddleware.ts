@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { UnauthenticatedError } from "../errors/unauthenticated";
 import jwt from "jsonwebtoken";
-import { StatusCodes } from "http-status-codes";
 import { getEnvVariable } from "../utils/env";
 import { AuthRequest } from "../types/auth";
 
@@ -32,6 +31,7 @@ export const authenticationMiddleware = async (
     authReq.user = { id, username };
     next();
   } catch (error) {
+    console.log(error);
     throw new UnauthenticatedError("Not authorized to access this route");
   }
 };

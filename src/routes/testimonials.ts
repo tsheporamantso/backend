@@ -2,13 +2,13 @@ import express from "express";
 
 const router = express.Router();
 
-const {
+import {
   createReviewer,
   getAllReviewers,
   getSingleReviewer,
   updateReviewer,
   deleteReviewer,
-} = require("../controllers/testimonialsController");
+} from "../controllers/testimonialsController";
 
 router.route("/").post(createReviewer).get(getAllReviewers);
 router

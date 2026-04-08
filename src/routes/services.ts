@@ -2,13 +2,13 @@ import express from "express";
 
 const router = express.Router();
 
-const {
+import {
   getServices,
   createService,
   getSingleService,
   updateService,
   deleteService,
-} = require("../controllers/servicesController");
+} from "../controllers/servicesController";
 
 router.route("/").get(getServices).post(createService);
 router
