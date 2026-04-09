@@ -1,8 +1,8 @@
+import jwt from "jsonwebtoken";
+import { AuthRequest } from "../types/auth";
+import { getEnvVariable } from "../utils/env";
 import { Request, Response, NextFunction } from "express";
 import { UnauthenticatedError } from "../errors/unauthenticated";
-import jwt from "jsonwebtoken";
-import { getEnvVariable } from "../utils/env";
-import { AuthRequest } from "../types/auth";
 
 export interface JWTPayloadType {
   id: number;
@@ -17,7 +17,7 @@ export const authenticationMiddleware = async (
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    throw new UnauthenticatedError("Invalid credentials to access this route");
+    throw new UnauthenticatedError("Authentication invalid");
   }
   const token = authHeader.split(" ")[1];
 
