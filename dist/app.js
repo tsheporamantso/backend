@@ -30,7 +30,6 @@ app.use("/api/v1/contacts", sendContact_1.default);
 app.use("/api/v1/auth", auth_1.default);
 app.use(notFound_1.notFound);
 app.use(errorHandler_1.errorHandlerMiddleware);
-console.log("conventional commit test");
 const port = process.env.PORT || 3000;
 async function start() {
     try {

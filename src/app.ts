@@ -3,7 +3,7 @@ import path from "path";
 import express from "express";
 import connectDB from "./db/connect";
 import { getEnvVariable } from "./utils/env";
-import router from "./routes/projects";
+import projectsRouter from "./routes/projects";
 import servicesRouter from "./routes/services";
 import testimonialsRouter from "./routes/testimonials";
 import sendContactRouter from "./routes/sendContact";
@@ -28,15 +28,13 @@ app.use(express.json());
 app.use("/images", express.static(path.join(process.cwd(), "public/images")));
 
 // routes
-app.use("/api/v1/projects", router);
+app.use("/api/v1/projects", projectsRouter);
 app.use("/api/v1/services", servicesRouter);
 app.use("/api/v1/testimonials", testimonialsRouter);
 app.use("/api/v1/contacts", sendContactRouter);
 app.use("/api/v1/auth", authRouter);
 app.use(notFound);
 app.use(errorHandlerMiddleware);
-
-console.log("conventional commit test");
 
 const port = process.env.PORT || 3000;
 
