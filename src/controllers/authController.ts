@@ -41,10 +41,3 @@ export const login = asyncWrapper(async (req: Request, res: Response) => {
     token,
   });
 });
-
-export const dashboard = asyncWrapper(async (req: Request, res: Response) => {
-  res.status(StatusCodes.OK).json({
-    success: true,
-    msg: `Welcome ${req.user?.name}`,
-  });
-});

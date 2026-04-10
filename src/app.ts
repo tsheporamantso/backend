@@ -1,4 +1,5 @@
 import "dotenv/config";
+import cors from "cors";
 import path from "path";
 import express from "express";
 import connectDB from "./db/connect";
@@ -10,7 +11,7 @@ import sendContactRouter from "./routes/sendContact";
 import authRouter from "./routes/auth";
 import { notFound } from "./middleware/notFound";
 import { errorHandlerMiddleware } from "./middleware/errorHandler";
-import cors from "cors";
+import dashboardRouter from "./routes/dashboard";
 
 const app = express();
 
@@ -28,14 +29,18 @@ app.use(express.json());
 app.use("/images", express.static(path.join(process.cwd(), "public/images")));
 
 // routes
+app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/projects", projectsRouter);
 app.use("/api/v1/services", servicesRouter);
-app.use("/api/v1/testimonials", testimonialsRouter);
+app.use("/api/v1/dashboard", dashboardRouter);
 app.use("/api/v1/contacts", sendContactRouter);
-app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/testimonials", testimonialsRouter);
+
+// middleware
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
+// port and server start
 const port = process.env.PORT || 3000;
 
 async function start() {
