@@ -1,12 +1,11 @@
 import "dotenv/config";
-import jwt, { SignOptions } from "jsonwebtoken";
+import User from "../models/User";
 import { Request, Response } from "express";
+import { AuthRequest } from "../types/auth";
 import { StatusCodes } from "http-status-codes";
 import { asyncWrapper } from "../middleware/async";
 import { BadRequest } from "../errors/bad-request";
-import { getEnvVariable } from "../utils/env";
-import { AuthRequest } from "../types/auth";
-import User from "../models/User";
+import { UnauthenticatedError } from "../errors/unauthenticated";
 
 export const register = asyncWrapper(async (req: Request, res: Response) => {
   const user = await User.create({ ...req.body });
@@ -19,27 +18,31 @@ export const register = asyncWrapper(async (req: Request, res: Response) => {
 });
 
 export const login = asyncWrapper(async (req: Request, res: Response) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  if (!username || !password) {
-    throw new BadRequest("Please provide username and password");
+  if (!email || !password) {
+    throw new BadRequest("Please provide email and password");
   }
 
-  const id = new Date().getDate();
+  const user = await User.findOne({ email });
+  console.log(user);
 
-  const options: SignOptions = {
-    expiresIn: getEnvVariable("JWT_EXPIRES_IN") as SignOptions["expiresIn"],
-  };
+  if (!user) {
+    throw new UnauthenticatedError("Invalid credentials");
+  }
 
-  const token = jwt.sign(
-    { id, username },
-    getEnvVariable("JWT_SECRET"),
-    options,
-  );
+  const isPasswordCorrect = await user.comparePassword(password);
+
+  console.log(isPasswordCorrect);
+
+  if (!isPasswordCorrect) {
+    throw new UnauthenticatedError("Invalid credentials");
+  }
+
+  const token = user.createJWT();
 
   res.status(StatusCodes.OK).json({
-    success: true,
-    msg: "User created",
+    user: { name: user.username },
     token,
   });
 });

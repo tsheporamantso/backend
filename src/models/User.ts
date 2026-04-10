@@ -8,6 +8,7 @@ export interface IAuth extends Document {
   email: string;
   password: string;
   createJWT: () => string;
+  comparePassword: (candidatePassword: string) => Promise<boolean>;
 }
 
 const userSchema = new Schema({
@@ -47,6 +48,13 @@ userSchema.methods.createJWT = function () {
     getEnvVariable("JWT_SECRET"),
     options,
   );
+};
+
+userSchema.methods.comparePasswords = async function (
+  candidatePassword: string,
+) {
+  const isMatch = await bcrypt.compare(candidatePassword, this.password);
+  return isMatch;
 };
 
 export default mongoose.model<IAuth>("User", userSchema);
