@@ -1,7 +1,6 @@
 import "dotenv/config";
 import User from "../models/User";
 import { Request, Response } from "express";
-import { AuthRequest } from "../types/auth";
 import { StatusCodes } from "http-status-codes";
 import { asyncWrapper } from "../middleware/async";
 import { BadRequest } from "../errors/bad-request";
