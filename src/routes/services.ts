@@ -17,4 +17,4 @@ router
   .patch(updateService)
   .delete(deleteService);
 
-module.exports = router;
+export default router;

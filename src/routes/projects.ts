@@ -17,4 +17,4 @@ router
   .patch(updateProject)
   .delete(deleteProject);
 
-module.exports = router;
+export default router;
