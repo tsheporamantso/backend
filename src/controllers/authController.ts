@@ -10,9 +10,11 @@ import User from "../models/User";
 
 export const register = asyncWrapper(async (req: Request, res: Response) => {
   const user = await User.create({ ...req.body });
+  const token = user.createJWT();
 
   res.status(StatusCodes.CREATED).json({
-    user,
+    user: { name: user.username },
+    token,
   });
 });
 

@@ -1,10 +1,13 @@
 import mongoose, { Schema, Document } from "mongoose";
 import bcrypt from "bcryptjs";
+import jwt, { SignOptions } from "jsonwebtoken";
+import { getEnvVariable } from "../utils/env";
 
 export interface IAuth extends Document {
   username: string;
   email: string;
   password: string;
+  createJWT: () => string;
 }
 
 const userSchema = new Schema({
@@ -32,5 +35,17 @@ userSchema.pre("save", async function () {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
+
+const options: SignOptions = {
+  expiresIn: getEnvVariable("JWT_EXPIRES_IN") as SignOptions["expiresIn"],
+};
+
+userSchema.methods.createJWT = function () {
+  return jwt.sign(
+    { userId: this._id, username: this.username },
+    getEnvVariable("JWT_SECRET"),
+    options,
+  );
+};
 
 export default mongoose.model<IAuth>("User", userSchema);
