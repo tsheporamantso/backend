@@ -22,7 +22,6 @@ export const login = asyncWrapper(async (req: Request, res: Response) => {
   if (!email || !password) {
     throw new BadRequest("Please provide email and password");
   }
-
   const user = await User.findOne({ email });
 
   if (!user) {
@@ -31,14 +30,11 @@ export const login = asyncWrapper(async (req: Request, res: Response) => {
 
   const isPasswordCorrect = await user.comparePassword(password);
 
-  console.log(isPasswordCorrect);
-
   if (!isPasswordCorrect) {
     throw new UnauthenticatedError("Invalid credentials");
   }
 
   const token = user.createJWT();
-  console.log(token);
 
   res.status(StatusCodes.OK).json({
     user: { name: user.username },
