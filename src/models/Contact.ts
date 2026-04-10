@@ -17,6 +17,10 @@ const contactSchema = new Schema(
     email: {
       type: String,
       required: [true, "Email is required"],
+      match: [
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        "Please provide a valid email address",
+      ],
     },
     message: {
       type: String,
