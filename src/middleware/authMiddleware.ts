@@ -1,15 +1,14 @@
 import jwt from "jsonwebtoken";
-import { AuthRequest } from "../types/auth";
 import { getEnvVariable } from "../utils/env";
 import { Request, Response, NextFunction } from "express";
 import { UnauthenticatedError } from "../errors/unauthenticated";
 
 export interface JWTPayloadType {
-  id: number;
+  userId: string;
   username: string;
 }
 
-export const authenticationMiddleware = async (
+export const authentication = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -22,16 +21,14 @@ export const authenticationMiddleware = async (
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(
+    const payload = jwt.verify(
       token,
       getEnvVariable("JWT_SECRET"),
     ) as JWTPayloadType;
-    const { id, username } = decoded;
-    const authReq = req as AuthRequest;
-    authReq.user = { id, username };
+    req.user = { userId: payload.userId, name: payload.username };
     next();
   } catch (error) {
     console.log(error);
-    throw new UnauthenticatedError("Not authorized to access this route");
+    throw new UnauthenticatedError("Authentication invalid");
   }
 };

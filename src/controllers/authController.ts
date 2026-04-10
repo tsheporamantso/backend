@@ -25,7 +25,6 @@ export const login = asyncWrapper(async (req: Request, res: Response) => {
   }
 
   const user = await User.findOne({ email });
-  console.log(user);
 
   if (!user) {
     throw new UnauthenticatedError("Invalid credentials");
@@ -40,6 +39,7 @@ export const login = asyncWrapper(async (req: Request, res: Response) => {
   }
 
   const token = user.createJWT();
+  console.log(token);
 
   res.status(StatusCodes.OK).json({
     user: { name: user.username },
@@ -48,9 +48,8 @@ export const login = asyncWrapper(async (req: Request, res: Response) => {
 });
 
 export const dashboard = asyncWrapper(async (req: Request, res: Response) => {
-  const authReq = req as AuthRequest;
   res.status(StatusCodes.OK).json({
     success: true,
-    msg: `Welcome ${authReq.user?.username}`,
+    msg: `Welcome ${req.user?.name}`,
   });
 });
