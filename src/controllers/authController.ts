@@ -6,6 +6,15 @@ import { asyncWrapper } from "../middleware/async";
 import { BadRequest } from "../errors/bad-request";
 import { getEnvVariable } from "../utils/env";
 import { AuthRequest } from "../types/auth";
+import User from "../models/User";
+
+export const register = asyncWrapper(async (req: Request, res: Response) => {
+  const user = await User.create({ ...req.body });
+
+  res.status(StatusCodes.CREATED).json({
+    user,
+  });
+});
 
 export const login = asyncWrapper(async (req: Request, res: Response) => {
   const { username, password } = req.body;

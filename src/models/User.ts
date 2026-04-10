@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import bcrypt from "bcryptjs";
 
 export interface IAuth extends Document {
   username: string;
@@ -25,6 +26,11 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Please provide password"],
   },
+});
+
+userSchema.pre("save", async function () {
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
 
 export default mongoose.model<IAuth>("User", userSchema);
