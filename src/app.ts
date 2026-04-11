@@ -10,8 +10,10 @@ import testimonialsRouter from "./routes/testimonials";
 import sendContactRouter from "./routes/Contacts";
 import authRouter from "./routes/auth";
 import { notFound } from "./middleware/notFound";
-import { errorHandlerMiddleware } from "./middleware/errorHandler";
 import dashboardRouter from "./routes/dashboard";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger";
+import { errorHandlerMiddleware } from "./middleware/errorHandler";
 
 const app = express();
 
@@ -36,12 +38,15 @@ app.use("/api/v1/dashboard", dashboardRouter);
 app.use("/api/v1/contacts", sendContactRouter);
 app.use("/api/v1/testimonials", testimonialsRouter);
 
+// swagger documentation
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // middleware
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
 // port and server start
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 async function start() {
   try {

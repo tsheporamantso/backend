@@ -7,6 +7,66 @@ import { NextFunction, Request, Response } from "express";
 import { BadRequest } from "../errors/bad-request";
 import { createCustomError } from "../errors/custom-error";
 
+/**
+ * @swagger
+ * tags:
+ *   name: Contacts
+ *   description: Contact form submissions and message management
+ */
+
+/**
+ * @swagger
+ * /contacts:
+ *   post:
+ *     summary: Submit a contact message
+ *     tags: [Contacts]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - message
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: John Doe
+ *               email:
+ *                 type: string
+ *                 example: john@example.com
+ *               message:
+ *                 type: string
+ *                 example: I'd love to collaborate with you!
+ *     responses:
+ *       200:
+ *         description: Message sent successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 msg:
+ *                   type: string
+ *                   example: Email sent successfully
+ *       400:
+ *         description: Missing required fields
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 export const sendContact = asyncWrapper(async (req: Request, res: Response) => {
   const { name, email, message } = req.body;
 
@@ -14,15 +74,8 @@ export const sendContact = asyncWrapper(async (req: Request, res: Response) => {
     throw new BadRequest("All fields required");
   }
 
-  // Save to DB
-  await Contact.create({
-    name,
-    email,
-    message,
-    ip: req.ip,
-  });
+  await Contact.create({ name, email, message, ip: req.ip });
 
-  // Send email
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -43,12 +96,45 @@ export const sendContact = asyncWrapper(async (req: Request, res: Response) => {
       <p><strong>Message:</strong> ${message}</p>
     `,
   });
-  res.status(StatusCodes.OK).json({
-    success: true,
-    msg: "Email sent successfully",
-  });
+
+  res
+    .status(StatusCodes.OK)
+    .json({ success: true, msg: "Email sent successfully" });
 });
 
+/**
+ * @swagger
+ * /contacts:
+ *   get:
+ *     summary: Retrieve all contact messages
+ *     tags: [Contacts]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of all contact messages
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 nbHits:
+ *                   type: integer
+ *                   example: 3
+ *                 contacts:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Contact'
+ *       401:
+ *         description: Unauthorized — JWT token missing or invalid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 export const getContacts = asyncWrapper(async (req: Request, res: Response) => {
   const contacts = await Contact.find({}).sort({ createdAt: -1 });
 
@@ -59,6 +145,49 @@ export const getContacts = asyncWrapper(async (req: Request, res: Response) => {
   });
 });
 
+/**
+ * @swagger
+ * /contacts/{id}:
+ *   delete:
+ *     summary: Delete a contact message by ID
+ *     tags: [Contacts]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: MongoDB ObjectId of the contact message
+ *         example: 64b7f2c9e4b0a12345678901
+ *     responses:
+ *       200:
+ *         description: Message deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 msg:
+ *                   type: string
+ *                   example: Message deleted
+ *       401:
+ *         description: Unauthorized — JWT token missing or invalid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Contact not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
 export const deleteContact = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id: contactId } = req.params;
@@ -73,9 +202,7 @@ export const deleteContact = asyncWrapper(
         ),
       );
     }
-    res.status(StatusCodes.OK).json({
-      success: true,
-      msg: "Message deleted",
-    });
+
+    res.status(StatusCodes.OK).json({ success: true, msg: "Message deleted" });
   },
 );
