@@ -3,8 +3,9 @@ import nodemailer from "nodemailer";
 import Contact from "../models/Contact";
 import { StatusCodes } from "http-status-codes";
 import { asyncWrapper } from "../middleware/async";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { BadRequest } from "../errors/bad-request";
+import { createCustomError } from "../errors/custom-error";
 
 export const sendContact = asyncWrapper(async (req: Request, res: Response) => {
   const { name, email, message } = req.body;
@@ -57,3 +58,24 @@ export const getContacts = asyncWrapper(async (req: Request, res: Response) => {
     contacts,
   });
 });
+
+export const deleteContact = asyncWrapper(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id: contactId } = req.params;
+
+    const contact = await Contact.findOneAndDelete({ _id: contactId });
+
+    if (!contact) {
+      return next(
+        createCustomError(
+          `No contact found with id: ${contactId}`,
+          StatusCodes.NOT_FOUND,
+        ),
+      );
+    }
+    res.status(StatusCodes.OK).json({
+      success: true,
+      msg: "Message deleted",
+    });
+  },
+);
