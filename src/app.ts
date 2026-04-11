@@ -7,7 +7,7 @@ import { getEnvVariable } from "./utils/env";
 import projectsRouter from "./routes/projects";
 import servicesRouter from "./routes/services";
 import testimonialsRouter from "./routes/testimonials";
-import sendContactRouter from "./routes/sendContact";
+import sendContactRouter from "./routes/Contacts";
 import authRouter from "./routes/auth";
 import { notFound } from "./middleware/notFound";
 import { errorHandlerMiddleware } from "./middleware/errorHandler";
