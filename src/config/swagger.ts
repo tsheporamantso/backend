@@ -48,6 +48,21 @@ const options: swaggerJsdoc.Options = {
           },
         },
       },
+      UserResponse: {
+        type: "object",
+        properties: {
+          user: {
+            type: "object",
+            properties: {
+              name: { type: "string", example: "tshepo" },
+            },
+          },
+          token: {
+            type: "string",
+            example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+          },
+        },
+      },
     },
   },
   apis: ["./src/routes/*.ts", "./src/controllers/*.ts"],
