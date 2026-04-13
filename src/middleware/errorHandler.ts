@@ -1,6 +1,7 @@
 import { ErrorRequestHandler } from "express";
 import { CustomAPIError } from "../errors/custom-error";
 import { StatusCodes } from "http-status-codes";
+import mongoose from "mongoose";
 
 export const errorHandlerMiddleware: ErrorRequestHandler = (
   err,
@@ -11,6 +12,16 @@ export const errorHandlerMiddleware: ErrorRequestHandler = (
   if (err instanceof CustomAPIError) {
     return res.status(err.statusCode).json({ msg: err.message });
   }
+
+  if (err instanceof mongoose.Error.ValidationError) {
+    const message = Object.values(err.errors).map((e) => e.message);
+    res.status(StatusCodes.BAD_REQUEST).json({ msg: message.join(", ") });
+  }
+
+  if (err.code === 11000) {
+    res.status(StatusCodes.CONFLICT).json({ msg: "Email already in use" });
+  }
+
   return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
     msg: "Something went wrong, please try again",
   });
