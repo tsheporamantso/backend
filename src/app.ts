@@ -10,8 +10,11 @@ import testimonialsRouter from "./routes/testimonials";
 import sendContactRouter from "./routes/Contacts";
 import authRouter from "./routes/auth";
 import { notFound } from "./middleware/notFound";
-import { errorHandlerMiddleware } from "./middleware/errorHandler";
 import dashboardRouter from "./routes/dashboard";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger";
+import { errorHandlerMiddleware } from "./middleware/errorHandler";
+import helmet from "helmet";
 
 const app = express();
 
@@ -25,6 +28,9 @@ app.use(
 // body parse
 app.use(express.json());
 
+// security packages
+app.use(helmet());
+
 // static files
 app.use("/images", express.static(path.join(process.cwd(), "public/images")));
 
@@ -35,6 +41,9 @@ app.use("/api/v1/services", servicesRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
 app.use("/api/v1/contacts", sendContactRouter);
 app.use("/api/v1/testimonials", testimonialsRouter);
+
+// swagger documentation
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // middleware
 app.use(notFound);
