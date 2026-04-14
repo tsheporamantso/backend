@@ -13,7 +13,6 @@ import { notFound } from "./middleware/notFound";
 import dashboardRouter from "./routes/dashboard";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger";
-import { contactLimiter } from "./controllers/contactLimiter";
 import { errorHandlerMiddleware } from "./middleware/errorHandler";
 import helmet from "helmet";
 
@@ -30,7 +29,6 @@ app.use(
 app.use(express.json());
 
 // security packages
-app.use(contactLimiter);
 app.use(helmet());
 
 // static files
