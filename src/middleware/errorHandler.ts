@@ -24,6 +24,12 @@ export const errorHandlerMiddleware: ErrorRequestHandler = (
       .json({ msg: `Email: ${Object.values(err.keyValue)}, already in use.` });
   }
 
+  if (err.name === "CastError") {
+    res.status(StatusCodes.NOT_FOUND).json({
+      msg: `No item found with id: ${err.value}`,
+    });
+  }
+
   return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
     msg: "Something went wrong, please try again",
   });
