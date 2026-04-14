@@ -13,7 +13,9 @@ import { notFound } from "./middleware/notFound";
 import dashboardRouter from "./routes/dashboard";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger";
+import { contactLimiter } from "./controllers/contactLimiter";
 import { errorHandlerMiddleware } from "./middleware/errorHandler";
+import helmet from "helmet";
 
 const app = express();
 
@@ -26,6 +28,10 @@ app.use(
 
 // body parse
 app.use(express.json());
+
+// security packages
+app.use(contactLimiter);
+app.use(helmet());
 
 // static files
 app.use("/images", express.static(path.join(process.cwd(), "public/images")));
