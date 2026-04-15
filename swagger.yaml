@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  title: Portfolio Data Production
+  contact: {}
+  version: "1.0"
+servers:
+  - url: https://personal-portfolio-data.onrender.com/api/v1
+    variables: {}
+paths:
+  /projects:
+    get:
+      tags:
+        - Projects
+      summary: Get all projects
+      operationId: GetAllProjects
+      parameters:
+        - name: sort
+          in: query
+          required: true
+          schema:
+            type: string
+            example: title
+      responses:
+        "200":
+          description: ""
+
+  /projects/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The project ID
+    get:
+      tags:
+        - Projects
+      summary: Get single project
+      operationId: GetSingleProject
+      responses:
+        "200":
+          description: ""
