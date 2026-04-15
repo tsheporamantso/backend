@@ -31,8 +31,15 @@ app.use(express.json());
 // security packages
 app.use(helmet());
 
-// static files
-app.use("/images", express.static(path.join(process.cwd(), "public/images")));
+// Override CORP just for static images
+app.use(
+  "/images",
+  (req, res, next) => {
+    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+    next();
+  },
+  express.static(path.join(process.cwd(), "public/images")),
+);
 
 // routes
 app.use("/api/v1/auth", authRouter);
