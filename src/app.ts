@@ -18,9 +18,20 @@ import helmet from "helmet";
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:3001",
+  "https://gladwinramantso.netlify.app",
+  "https://editor.swagger.io",
+];
+
 app.use(
   cors({
-    origin: ["http://localhost:3001", "https://gladwinramantso.netlify.app"],
+    origin: (origin, callback) => {
+      // Allow requests with no origin (curl, Postman, mobile apps)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      callback(new Error(`CORS policy: origin ${origin} not allowed`));
+    },
     credentials: true,
   }),
 );
