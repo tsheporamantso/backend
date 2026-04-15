@@ -11,10 +11,14 @@ import sendContactRouter from "./routes/Contacts";
 import authRouter from "./routes/auth";
 import { notFound } from "./middleware/notFound";
 import dashboardRouter from "./routes/dashboard";
-import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger";
 import { errorHandlerMiddleware } from "./middleware/errorHandler";
 import helmet from "helmet";
+
+// swagger
+import swaggerUI from "swagger-ui-express";
+import YAML from "yamljs";
+const swaggerDocument = YAML.load("./swagger.yaml");
 
 const app = express();
 
@@ -61,7 +65,8 @@ app.use("/api/v1/contacts", sendContactRouter);
 app.use("/api/v1/testimonials", testimonialsRouter);
 
 // swagger documentation
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // middleware
 app.use(notFound);
