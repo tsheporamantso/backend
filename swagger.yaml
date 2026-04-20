@@ -1,7 +1,11 @@
 openapi: 3.0.0
 info:
   title: Portfolio Data Production
-  contact: {}
+  description: Restful API that collects selected projects' data for my portfolio website, built with TypeScript, ExpressJS, Non Relational Database MongoDB and Mongoose Modelling library
+  contact:
+    name: Gladwin Tshepo Ramantso
+    url: https://gladwinramantso.netlify.app/#home
+    email: tshepo.ramantso@outlook.com
   version: "1.0"
 servers:
   - url: https://personal-portfolio-data.onrender.com/api/v1
