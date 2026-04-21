@@ -11,7 +11,7 @@ import sendContactRouter from "./routes/Contacts";
 import authRouter from "./routes/auth";
 import { notFound } from "./middleware/notFound";
 import dashboardRouter from "./routes/dashboard";
-import { swaggerSpec } from "./config/swagger";
+import tipsRouter from "./routes/tips";
 import { errorHandlerMiddleware } from "./middleware/errorHandler";
 import helmet from "helmet";
 
@@ -63,6 +63,7 @@ app.use("/api/v1/services", servicesRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
 app.use("/api/v1/contacts", sendContactRouter);
 app.use("/api/v1/testimonials", testimonialsRouter);
+app.use("/api/v1/tips", tipsRouter);
 
 // swagger documentation
 // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
