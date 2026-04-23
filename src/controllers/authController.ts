@@ -48,3 +48,11 @@ export const login = asyncWrapper(async (req: Request, res: Response) => {
     user: { userId: user._id, name: user.username, role: user.role },
   });
 });
+
+export const logout = asyncWrapper(async (req, res) => {
+  res.cookie("token", "token", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.status(StatusCodes.OK).json({ msg: "user logged out" });
+});
