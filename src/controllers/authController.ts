@@ -7,11 +7,15 @@ import { BadRequest } from "../errors/bad-request";
 import { UnauthenticatedError } from "../errors/unauthenticated";
 
 export const register = asyncWrapper(async (req: Request, res: Response) => {
-  const user = await User.create({ ...req.body });
+  const isFirstAccount = (await User.countDocuments({})) === 0;
+
+  const role = isFirstAccount ? "admin" : "user";
+
+  const user = await User.create({ ...req.body, role });
   const token = user.createJWT();
 
   res.status(StatusCodes.CREATED).json({
-    user: { name: user.username },
+    user: { name: user.username, role: user.role },
     token,
   });
 });
