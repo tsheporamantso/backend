@@ -13,7 +13,7 @@ export const authentication = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const { token } = req.signedCookies;
+  const token = req.signedCookies.token || req.cookies.token;
 
   if (!token) {
     throw new UnauthenticatedError("Authentication invalid");
