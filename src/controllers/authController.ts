@@ -4,19 +4,20 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { asyncWrapper } from "../middleware/async";
 import { BadRequest } from "../errors/bad-request";
+import { attachCookiesToResponse } from "../utils/cookies";
 import { UnauthenticatedError } from "../errors/unauthenticated";
 
 export const register = asyncWrapper(async (req: Request, res: Response) => {
   const isFirstAccount = (await User.countDocuments({})) === 0;
-
   const role = isFirstAccount ? "admin" : "user";
 
   const user = await User.create({ ...req.body, role });
   const token = user.createJWT();
 
+  attachCookiesToResponse(res, token);
+
   res.status(StatusCodes.CREATED).json({
-    user: { name: user.username, role: user.role },
-    token,
+    user: { userId: user._id, name: user.username, role: user.role },
   });
 });
 
@@ -41,8 +42,9 @@ export const login = asyncWrapper(async (req: Request, res: Response) => {
 
   const token = user.createJWT();
 
+  attachCookiesToResponse(res, token);
+
   res.status(StatusCodes.OK).json({
-    user: { name: user.username },
-    token,
+    user: { userId: user._id, name: user.username, role: user.role },
   });
 });
