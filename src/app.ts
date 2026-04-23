@@ -48,6 +48,9 @@ app.use(express.json());
 // logger
 app.use(morgan("tiny"));
 
+// cookiesParser
+app.use(cookieParser(process.env.JWT_SECRET));
+
 // security packages
 app.use(helmet());
 
