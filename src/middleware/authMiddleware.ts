@@ -13,12 +13,11 @@ export const authentication = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const authHeader = req.headers.authorization;
+  const { token } = req.signedCookies;
 
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  if (!token) {
     throw new UnauthenticatedError("Authentication invalid");
   }
-  const token = authHeader.split(" ")[1];
 
   try {
     const payload = jwt.verify(

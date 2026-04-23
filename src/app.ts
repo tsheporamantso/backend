@@ -14,6 +14,8 @@ import dashboardRouter from "./routes/dashboard";
 import tipsRouter from "./routes/tips";
 import { errorHandlerMiddleware } from "./middleware/errorHandler";
 import helmet from "helmet";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 // swagger
 import swaggerUI from "swagger-ui-express";
@@ -43,6 +45,12 @@ app.use(
 // body parse
 app.use(express.json());
 
+// logger
+app.use(morgan("tiny"));
+
+// cookiesParser
+app.use(cookieParser(process.env.JWT_SECRET));
+
 // security packages
 app.use(helmet());
 
@@ -66,7 +74,6 @@ app.use("/api/v1/testimonials", testimonialsRouter);
 app.use("/api/v1/tips", tipsRouter);
 
 // swagger documentation
-// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // middleware
