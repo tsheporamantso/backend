@@ -6,6 +6,7 @@ import { UnauthenticatedError } from "../errors/unauthenticated";
 export interface JWTPayloadType {
   userId: string;
   username: string;
+  role: string;
 }
 
 export const authentication = async (
@@ -24,7 +25,11 @@ export const authentication = async (
       token,
       getEnvVariable("JWT_SECRET"),
     ) as JWTPayloadType;
-    req.user = { userId: payload.userId, name: payload.username };
+    req.user = {
+      userId: payload.userId,
+      name: payload.username,
+      role: payload.role,
+    };
     next();
   } catch (error) {
     console.log(error);
