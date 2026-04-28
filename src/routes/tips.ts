@@ -1,7 +1,7 @@
 import express from "express";
 import Stripe from "stripe";
 import { getEnvVariable } from "../utils/env";
-import { authentication } from "../middleware/authMiddleware";
+import { authenticateUser } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
@@ -35,7 +35,7 @@ router.post("/create-checkout", async (req, res) => {
   }
 });
 
-router.get("/", authentication, async (req, res) => {
+router.get("/", authenticateUser, async (req, res) => {
   try {
     const sessions = await stripe.checkout.sessions.list({
       limit: 50,

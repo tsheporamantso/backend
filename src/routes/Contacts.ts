@@ -7,12 +7,12 @@ import {
   getContacts,
   deleteContact,
 } from "../controllers/ContactController";
-import { authentication } from "../middleware/authMiddleware";
+import { authenticateUser } from "../middleware/authMiddleware";
 
 import { contactLimiter } from "../controllers/contactLimiter";
 
 router.route("/").post(contactLimiter, sendContact);
-router.get("/", authentication, getContacts);
-router.route("/:id").delete(authentication, deleteContact);
+router.get("/", authenticateUser, getContacts);
+router.route("/:id").delete(authenticateUser, deleteContact);
 
 export default router;

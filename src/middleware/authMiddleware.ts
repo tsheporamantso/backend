@@ -9,7 +9,7 @@ export interface JWTPayloadType {
   role: string;
 }
 
-export const authentication = async (
+export const authenticateUser = async (
   req: Request,
   res: Response,
   next: NextFunction,
