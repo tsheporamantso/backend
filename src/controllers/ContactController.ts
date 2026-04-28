@@ -4,7 +4,7 @@ import Contact from "../models/Contact";
 import { StatusCodes } from "http-status-codes";
 import { asyncWrapper } from "../middleware/async";
 import { NextFunction, Request, Response } from "express";
-import { BadRequest } from "../errors/bad-request";
+import { BadRequestError } from "../errors/bad-request";
 import { createCustomError } from "../errors/custom-error";
 
 /**
@@ -71,7 +71,7 @@ export const sendContact = asyncWrapper(async (req: Request, res: Response) => {
   const { name, email, message } = req.body;
 
   if (!name || !email || !message) {
-    throw new BadRequest("All fields required");
+    throw new BadRequestError("All fields required");
   }
 
   await Contact.create({ name, email, message, ip: req.ip });
