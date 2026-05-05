@@ -1,4 +1,6 @@
 import express from "express";
+import { authenticateUser } from "../middleware/authMiddleware";
+import { authorizePermission } from "../middleware/authorizePermission";
 
 const router = express.Router();
 
@@ -10,11 +12,14 @@ import {
   deleteProject,
 } from "../controllers/projectsController";
 
-router.route("/").get(getAllProjects).post(createProject);
+router
+  .route("/")
+  .get(getAllProjects)
+  .post([authenticateUser, authorizePermission("admin")], createProject);
 router
   .route("/:id")
   .get(getSingleProject)
-  .patch(updateProject)
-  .delete(deleteProject);
+  .patch([authenticateUser, authorizePermission("admin")], updateProject)
+  .delete([authenticateUser, authorizePermission("admin")], deleteProject);
 
 export default router;

@@ -1,4 +1,6 @@
 import express from "express";
+import { authenticateUser } from "../middleware/authMiddleware";
+import { authorizePermission } from "../middleware/authorizePermission";
 
 const router = express.Router();
 
@@ -7,12 +9,19 @@ import {
   getContacts,
   deleteContact,
 } from "../controllers/ContactController";
-import { authenticateUser } from "../middleware/authMiddleware";
 
 import { contactLimiter } from "../controllers/contactLimiter";
 
-router.route("/").post(contactLimiter, sendContact);
-router.get("/", authenticateUser, getContacts);
-router.route("/:id").delete(authenticateUser, deleteContact);
+router
+  .route("/")
+  .post(
+    [authenticateUser, authorizePermission("admin")],
+    contactLimiter,
+    sendContact,
+  );
+router.get("/", [authenticateUser, authorizePermission("admin")], getContacts);
+router
+  .route("/:id")
+  .delete([authenticateUser, authorizePermission("admin")], deleteContact);
 
 export default router;
