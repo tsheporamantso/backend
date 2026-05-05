@@ -1,4 +1,6 @@
 import express from "express";
+import { authenticateUser } from "../middleware/authMiddleware";
+import { authorizePermission } from "../middleware/authorizePermission";
 
 const router = express.Router();
 
@@ -10,11 +12,14 @@ import {
   deleteReviewer,
 } from "../controllers/testimonialsController";
 
-router.route("/").post(createReviewer).get(getAllReviewers);
+router
+  .route("/")
+  .post([authenticateUser, authorizePermission("admin")], createReviewer)
+  .get(getAllReviewers);
 router
   .route("/:id")
   .get(getSingleReviewer)
-  .patch(updateReviewer)
-  .delete(deleteReviewer);
+  .patch([authenticateUser, authorizePermission("admin")], updateReviewer)
+  .delete([authenticateUser, authorizePermission("admin")], deleteReviewer);
 
 export default router;
