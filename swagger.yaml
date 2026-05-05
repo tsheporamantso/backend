@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Portfolio Data Production
+  title: Portfolio Data-DEV
   description: Restful API that collects selected projects' data for my portfolio website, built with TypeScript, ExpressJS, Non Relational Database MongoDB and Mongoose Modelling library
   contact:
     name: Gladwin Tshepo Ramantso
@@ -14,20 +14,74 @@ paths:
   /projects:
     get:
       tags:
-        - Projects
+        - projects
       summary: Get all projects
-      operationId: GetAllProjects
+      operationId: Getallprojects
       parameters:
         - name: sort
           in: query
+          description: ""
           required: true
+          style: form
+          explode: true
           schema:
             type: string
-            example: title
+            example: -title
       responses:
         "200":
           description: ""
-
+          headers: {}
+      deprecated: false
+      security: []
+    post:
+      tags:
+        - projects
+      summary: Create Project
+      operationId: CreateProject
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CreateProjectRequest"
+                - example:
+                    title: Portfolio Data
+                    image: /images/aliens.png
+                    github: https://github.com/tsheporamantso/personal_portfolio_data
+                    demo: https://personal-portfolio-data.onrender.com/api-docs/#/
+                    description: Restful API that collects selected projects data for my portfolio website, built with TypeScript, ExpressJS , Non Relational Database MongoDB and Mongoose Modelling library
+                    stack:
+                      - TypeScript
+                      - Express
+                      - MongoDB
+                      - Mongoose
+                      - NodeJS
+                      - Postman
+                      - Swagger
+                      - CommitLint
+            example:
+              title: Portfolio Data
+              image: /images/aliens.png
+              github: https://github.com/tsheporamantso/personal_portfolio_data
+              demo: https://personal-portfolio-data.onrender.com/api-docs/#/
+              description: Restful API that collects selected projects data for my portfolio website, built with TypeScript, ExpressJS , Non Relational Database MongoDB and Mongoose Modelling library
+              stack:
+                - TypeScript
+                - Express
+                - MongoDB
+                - Mongoose
+                - NodeJS
+                - Postman
+                - Swagger
+                - CommitLint
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
   /projects/{id}:
     parameters:
       - in: path
@@ -38,9 +92,796 @@ paths:
         description: The project ID
     get:
       tags:
-        - Projects
+        - projects
       summary: Get single project
-      operationId: GetSingleProject
+      operationId: Getsingleproject
+      parameters: []
       responses:
         "200":
           description: ""
+          headers: {}
+      deprecated: false
+      security: []
+    patch:
+      tags:
+        - projects
+      summary: Update project
+      operationId: Updateproject
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/UpdateprojectRequest"
+                - example:
+                    stack:
+                      - TypeScript
+                      - Express
+                      - MongoDB
+                      - Mongoose
+                      - NodeJS
+                      - Postman
+                      - Swagger
+                      - CommitLint
+                      - Render
+                      - Stripe
+            example:
+              stack:
+                - TypeScript
+                - Express
+                - MongoDB
+                - Mongoose
+                - NodeJS
+                - Postman
+                - Swagger
+                - CommitLint
+                - Render
+                - Stripe
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    delete:
+      tags:
+        - projects
+      summary: Delete Task
+      operationId: DeleteTask
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /services:
+    get:
+      tags:
+        - services
+      summary: Get All Services
+      operationId: GetAllServices
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+    post:
+      tags:
+        - services
+      summary: Create Services
+      operationId: CreateServices
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CreateServicesRequest"
+                - example:
+                    title: Tools & Methods
+                    text:
+                      - Git and GitHub
+                      - Chrome Developers Tools, React/Redux Developers Tools
+                      - TDD, Testing Library, Jest, RSpec, API Documentation(Rswagger)
+            example:
+              title: Tools & Methods
+              text:
+                - Git and GitHub
+                - Chrome Developers Tools, React/Redux Developers Tools
+                - TDD, Testing Library, Jest, RSpec, API Documentation(Rswagger)
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /services/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The services ID
+    get:
+      tags:
+        - services
+      summary: Get Single Service
+      operationId: GetSingleService
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+    delete:
+      tags:
+        - services
+      summary: Delete Service
+      operationId: DeleteService
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    patch:
+      tags:
+        - services
+      summary: Update Service
+      operationId: UpdateService
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/UpdateServiceRequest"
+                - example:
+                    text:
+                      - Remote Pair-Programming and Teamwork.
+                      - Provided advice and tips on maintaining motivation and longevity in the program.
+                      - Proposed improvements to code organisation to improve code quality and overall performance.
+            example:
+              text:
+                - Remote Pair-Programming and Teamwork.
+                - Provided advice and tips on maintaining motivation and longevity in the program.
+                - Proposed improvements to code organisation to improve code quality and overall performance.
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /testimonials:
+    post:
+      tags:
+        - testimonials
+      summary: Create Testimonial
+      operationId: CreateTestimonial
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CreateTestimonialRequest"
+                - example:
+                    avatar: /images/May.jpg
+                    name: May Pyone
+                    review: Gladwin is an invaluable team member, demonstrating exceptional coding skills and a collaborative spirit. Throughout our challenging pair programming activities, Gladwin consistently showcased dedication and expertise, making him a standout colleague. I highly recommend working with Gladwin, as he not only delivers exceptional results but also enhances the team dynamic with his positive attitude. His contributions were pivotal to our projects success.
+                    links:
+                      - https://www.linkedin.com/in/maypyone/
+                      - https://github.com/MayPyone
+            example:
+              avatar: /images/May.jpg
+              name: May Pyone
+              review: Gladwin is an invaluable team member, demonstrating exceptional coding skills and a collaborative spirit. Throughout our challenging pair programming activities, Gladwin consistently showcased dedication and expertise, making him a standout colleague. I highly recommend working with Gladwin, as he not only delivers exceptional results but also enhances the team dynamic with his positive attitude. His contributions were pivotal to our projects success.
+              links:
+                - https://www.linkedin.com/in/maypyone/
+                - https://github.com/MayPyone
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    get:
+      tags:
+        - testimonials
+      summary: Get All Reviewers
+      operationId: GetAllReviewers
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+  /testimonials/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The testimonial ID
+    get:
+      tags:
+        - testimonials
+      summary: Get Single Reviewer
+      operationId: GetSingleReviewer
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    delete:
+      tags:
+        - testimonials
+      summary: Delete Testimonial
+      operationId: DeleteTestimonial
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    patch:
+      tags:
+        - testimonials
+      summary: Update Reviewer
+      operationId: UpdateReviewer
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/UpdateReviewerRequest"
+                - example:
+                    links:
+                      linkedIn: https://www.linkedin.com/in/maypyone/
+                      github: https://github.com/MayPyone
+            example:
+              links:
+                linkedIn: https://www.linkedin.com/in/maypyone/
+                github: https://github.com/MayPyone
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Login User
+      operationId: LoginUser
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/LoginUserRequest"
+                - example:
+                    email: dumisani.ramantso@outlook.com
+                    password: tshepi14c
+            example:
+              email: dumisani.ramantso@outlook.com
+              password: tshepi14c
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Register User
+      operationId: RegisterUser
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/RegisterUserRequest"
+                - example:
+                    username: dumisani
+                    email: dumisani.ramantso@outlook.com
+                    password: tshepi14c
+            example:
+              username: dumisani
+              email: dumisani.ramantso@outlook.com
+              password: tshepi14c
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+  /auth/logout:
+    get:
+      tags:
+        - auth
+      summary: Logout User
+      operationId: LogoutUser
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+  /contacts:
+    post:
+      tags:
+        - contacts
+      summary: Create/Send Email
+      operationId: Create/SendEmail
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CreateSendEmailRequest"
+                - example:
+                    name: Sweetness
+                    email: sweetness@entelect.com
+                    message: Hi Tshepo, please except Marc Gillman to contact you to join the team. Thanks Sweetness
+            example:
+              name: Sweetness
+              email: sweetness@entelect.com
+              message: Hi Tshepo, please except Marc Gillman to contact you to join the team. Thanks Sweetness
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    get:
+      tags:
+        - contacts
+      summary: Get All Contacts
+      operationId: GetAllContacts
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+    delete:
+      tags:
+        - contacts
+      summary: Delete Contact
+      operationId: DeleteContact
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /tips/create-checkout:
+    post:
+      tags:
+        - tips
+      summary: Create Tips Checkout
+      operationId: CreateTipsCheckout
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CreateTipsCheckoutRequest"
+                - example:
+                    name: Panky
+            example:
+              name: Panky
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /tips:
+    get:
+      tags:
+        - tips
+      summary: Get All Tips
+      operationId: GetAllTips
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /dashboard:
+    get:
+      tags:
+        - dashboard
+      summary: Dashboard
+      operationId: Dashboard
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /users:
+    get:
+      tags:
+        - users
+      summary: Get All Users
+      operationId: GetAllUsers
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /users/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The user ID
+    get:
+      tags:
+        - users
+      summary: Get Single User
+      operationId: GetSingleUser
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /users/showMe:
+    get:
+      tags:
+        - users
+      summary: Show Current User
+      operationId: ShowCurrentUser
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /users/updateUser:
+    patch:
+      tags:
+        - users
+      summary: Update User
+      operationId: UpdateUser
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/UpdateUserRequest"
+                - example:
+                    username: dumisani ramantso
+                    email: dumisani.ramantso@outlook.com
+            example:
+              username: dumisani ramantso
+              email: dumisani.ramantso@outlook.com
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+  /users/updateUserPassword:
+    patch:
+      tags:
+        - users
+      summary: Update User Password
+      operationId: UpdateUserPassword
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/UpdateUserPasswordRequest"
+                - example:
+                    oldPassword: tshepi14c
+                    newPassword: khb668
+            example:
+              oldPassword: tshepi14c
+              newPassword: khb668
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+components:
+  schemas:
+    CreateProjectRequest:
+      title: CreateProjectRequest
+      required:
+        - title
+        - image
+        - github
+        - demo
+        - description
+        - stack
+      type: object
+      properties:
+        title:
+          type: string
+        image:
+          type: string
+        github:
+          type: string
+        demo:
+          type: string
+        description:
+          type: string
+        stack:
+          type: array
+          items:
+            type: string
+          description: ""
+      example:
+        title: Portfolio Data
+        image: /images/aliens.png
+        github: https://github.com/tsheporamantso/personal_portfolio_data
+        demo: https://personal-portfolio-data.onrender.com/api-docs/#/
+        description: Restful API that collects selected projects data for my portfolio website, built with TypeScript, ExpressJS , Non Relational Database MongoDB and Mongoose Modelling library
+        stack:
+          - TypeScript
+          - Express
+          - MongoDB
+          - Mongoose
+          - NodeJS
+          - Postman
+          - Swagger
+          - CommitLint
+    UpdateprojectRequest:
+      title: UpdateprojectRequest
+      required:
+        - stack
+      type: object
+      properties:
+        stack:
+          type: array
+          items:
+            type: string
+          description: ""
+      example:
+        stack:
+          - TypeScript
+          - Express
+          - MongoDB
+          - Mongoose
+          - NodeJS
+          - Postman
+          - Swagger
+          - CommitLint
+          - Render
+          - Stripe
+    CreateServicesRequest:
+      title: CreateServicesRequest
+      required:
+        - title
+        - text
+      type: object
+      properties:
+        title:
+          type: string
+        text:
+          type: array
+          items:
+            type: string
+          description: ""
+      example:
+        title: Tools & Methods
+        text:
+          - Git and GitHub
+          - Chrome Developers Tools, React/Redux Developers Tools
+          - TDD, Testing Library, Jest, RSpec, API Documentation(Rswagger)
+    UpdateServiceRequest:
+      title: UpdateServiceRequest
+      required:
+        - text
+      type: object
+      properties:
+        text:
+          type: array
+          items:
+            type: string
+          description: ""
+      example:
+        text:
+          - Remote Pair-Programming and Teamwork.
+          - Provided advice and tips on maintaining motivation and longevity in the program.
+          - Proposed improvements to code organisation to improve code quality and overall performance.
+    CreateTestimonialRequest:
+      title: CreateTestimonialRequest
+      required:
+        - avatar
+        - name
+        - review
+        - links
+      type: object
+      properties:
+        avatar:
+          type: string
+        name:
+          type: string
+        review:
+          type: string
+        links:
+          type: array
+          items:
+            type: string
+          description: ""
+      example:
+        avatar: /images/May.jpg
+        name: May Pyone
+        review: Gladwin is an invaluable team member, demonstrating exceptional coding skills and a collaborative spirit. Throughout our challenging pair programming activities, Gladwin consistently showcased dedication and expertise, making him a standout colleague. I highly recommend working with Gladwin, as he not only delivers exceptional results but also enhances the team dynamic with his positive attitude. His contributions were pivotal to our projects success.
+        links:
+          - https://www.linkedin.com/in/maypyone/
+          - https://github.com/MayPyone
+    UpdateReviewerRequest:
+      title: UpdateReviewerRequest
+      required:
+        - links
+      type: object
+      properties:
+        links:
+          allOf:
+            - $ref: "#/components/schemas/Links"
+            - {}
+      example:
+        links:
+          linkedIn: https://www.linkedin.com/in/maypyone/
+          github: https://github.com/MayPyone
+    Links:
+      title: Links
+      required:
+        - linkedIn
+        - github
+      type: object
+      properties:
+        linkedIn:
+          type: string
+        github:
+          type: string
+      example:
+        linkedIn: https://www.linkedin.com/in/maypyone/
+        github: https://github.com/MayPyone
+    LoginUserRequest:
+      title: LoginUserRequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: dumisani.ramantso@outlook.com
+        password: tshepi14c
+    RegisterUserRequest:
+      title: RegisterUserRequest
+      required:
+        - username
+        - email
+        - password
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        username: dumisani
+        email: dumisani.ramantso@outlook.com
+        password: tshepi14c
+    CreateSendEmailRequest:
+      title: CreateSendEmailRequest
+      required:
+        - name
+        - email
+        - message
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        message:
+          type: string
+      example:
+        name: Sweetness
+        email: sweetness@entelect.com
+        message: Hi Tshepo, please except Marc Gillman to contact you to join the team. Thanks Sweetness
+    CreateTipsCheckoutRequest:
+      title: CreateTipsCheckoutRequest
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          type: string
+      example:
+        name: Panky
+    UpdateUserRequest:
+      title: UpdateUserRequest
+      required:
+        - username
+        - email
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+      example:
+        username: dumisani ramantso
+        email: dumisani.ramantso@outlook.com
+    UpdateUserPasswordRequest:
+      title: UpdateUserPasswordRequest
+      required:
+        - oldPassword
+        - newPassword
+      type: object
+      properties:
+        oldPassword:
+          type: string
+        newPassword:
+          type: string
+      example:
+        oldPassword: tshepi14c
+        newPassword: khb668
+  securitySchemes:
+    httpBearer:
+      type: http
+      scheme: bearer
+security:
+  - httpBearer: []
+tags:
+  - name: projects
+  - name: services
+  - name: testimonials
+  - name: auth
+  - name: contacts
+  - name: tips
+  - name: dashboard
+  - name: users
