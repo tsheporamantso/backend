@@ -21,9 +21,12 @@ export default [
         { argsIgnorePattern: "^_" },
       ],
       "@typescript-eslint/no-explicit-any": "warn",
+      "no-shadow": "off",
+      "no-param-reassign": "off",
+      "no-underscore-dangle": "off",
     },
   },
   {
-    ignores: ["node_modules/**", "dist/**"],
+    ignores: ["node_modules/**", "dist/**", "build/**"],
   },
 ];
