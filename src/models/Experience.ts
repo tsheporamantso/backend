@@ -19,6 +19,14 @@ const ExperienceSchema: Schema = new Schema(
       },
       default: "Experienced",
     },
+    category: {
+      type: String,
+      enum: {
+        values: ["frontend", "backend"],
+        message: "{VALUE} is not supported",
+      },
+      required: [true, "Please provide a category"],
+    },
   },
   { timestamps: true },
 );
