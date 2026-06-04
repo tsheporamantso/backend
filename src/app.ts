@@ -7,6 +7,7 @@ import { getEnvVariable } from "./utils/env";
 import projectsRouter from "./routes/projects";
 import servicesRouter from "./routes/services";
 import testimonialsRouter from "./routes/testimonials";
+import experienceRouter from "./routes/experienceRoute";
 import sendContactRouter from "./routes/Contacts";
 import userRouter from "./routes/userRoutes";
 import authRouter from "./routes/auth";
@@ -75,6 +76,7 @@ app.use("/api/v1/contacts", sendContactRouter);
 app.use("/api/v1/testimonials", testimonialsRouter);
 app.use("/api/v1/tips", tipsRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/experiences", experienceRouter);
 
 // swagger documentation
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
