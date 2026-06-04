@@ -15,7 +15,6 @@ const ExperienceSchema: Schema = new Schema(
       type: String,
       enum: {
         values: ["Experienced", "Intermediate"],
-        default: "Experienced",
         message: "{VALUE} is not supported",
       },
       default: "Experienced",
