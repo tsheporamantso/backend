@@ -22,7 +22,7 @@ const ExperienceSchema: Schema = new Schema(
     category: {
       type: String,
       enum: {
-        values: ["frontend", "backend"],
+        values: ["frontend", "backend", "database", "tools"],
         message: "{VALUE} is not supported",
       },
       required: [true, "Please provide a category"],
