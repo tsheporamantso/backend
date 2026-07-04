@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import { asyncWrapper } from "../middleware/async";
 import { createCustomError } from "../errors/custom-error";
 import { StatusCodes } from "http-status-codes";
+import cache from "../utils/cache";
 
 type ProjectQuery = {
   title?: string | { $regex: string; $options: string };
@@ -12,6 +13,20 @@ type ProjectQuery = {
 export const getAllProjects = asyncWrapper(
   async (req: Request, res: Response) => {
     const { title, sort, stack, fields } = req.query;
+
+    // build a unique cache key based on the query params used
+    const cacheKey = `projects:${JSON.stringify(req.query)}`;
+
+    // check cache first
+    const cachedData = cache.get(cacheKey);
+    if (cachedData) {
+      console.log(`✅ CACHE HIT  → ${cacheKey}`);
+      res.status(StatusCodes.OK).json(cachedData);
+      return;
+    }
+
+    console.log(`❌ CACHE MISS → ${cacheKey} (hitting database)`);
+
     const queryObject: ProjectQuery = {};
 
     if (typeof title === "string") {
@@ -40,11 +55,17 @@ export const getAllProjects = asyncWrapper(
     }
 
     const project = await result;
-    res.status(StatusCodes.OK).json({
+
+    const responseData = {
       nbHits: project.length,
       success: true,
       data: project,
-    });
+    };
+
+    // store in cache before responding
+    cache.set(cacheKey, responseData);
+
+    res.status(StatusCodes.OK).json(responseData);
   },
 );
 
@@ -71,6 +92,7 @@ export const getSingleProject = asyncWrapper(
 export const createProject = asyncWrapper(
   async (req: Request, res: Response) => {
     const project = await Project.create(req.body);
+    cache.flushAll(); // clear cache so new project shows up immediately
     res.status(StatusCodes.CREATED).json({
       success: true,
       data: project,
@@ -89,6 +111,7 @@ export const updateProject = asyncWrapper(
         runValidators: true,
       },
     );
+    cache.flushAll(); // clear cache so new project shows up immediately
     if (!project) {
       return next(
         createCustomError(
@@ -108,6 +131,7 @@ export const deleteProject = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id: projectID } = req.params;
     const project = await Project.findOneAndDelete({ _id: projectID });
+    cache.flushAll(); // clear cache so new project shows up immediately
     if (!project) {
       return next(
         createCustomError(
