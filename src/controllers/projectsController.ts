@@ -23,7 +23,7 @@ export const getAllProjects = asyncWrapper(
       queryObject.stack = { $in: stackValues };
     }
 
-    let result = Project.find(queryObject);
+    let result = Project.find(queryObject).lean();
 
     // sort
     if (typeof sort === "string") {
