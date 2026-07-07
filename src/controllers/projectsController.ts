@@ -72,7 +72,19 @@ export const getAllProjects = asyncWrapper(
 export const getSingleProject = asyncWrapper(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id: projectID } = req.params;
-    const project = await Project.findOne({ _id: projectID });
+
+    const cacheKey = `project${projectID}`;
+    const cached = cache.get(cacheKey);
+
+    if (cached) {
+      res.status(StatusCodes.OK).json({
+        success: true,
+        data: cached,
+      });
+      return;
+    }
+
+    const project = await Project.findOne({ _id: projectID }).lean();
     if (!project) {
       return next(
         createCustomError(
@@ -81,6 +93,8 @@ export const getSingleProject = asyncWrapper(
         ),
       );
     }
+
+    cache.set(cacheKey, project);
 
     res.status(StatusCodes.OK).json({
       success: true,
