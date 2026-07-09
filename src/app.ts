@@ -18,6 +18,7 @@ import { errorHandlerMiddleware } from "./middleware/errorHandler";
 import helmet from "helmet";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import { requestLogger } from "./middleware/requestLogger";
 
 // swagger
 import swaggerUI from "swagger-ui-express";
@@ -50,6 +51,9 @@ app.use(express.json());
 
 // logger
 app.use(morgan("tiny"));
+
+// Optimization
+app.use(requestLogger);
 
 // cookiesParser
 app.use(cookieParser(process.env.JWT_SECRET));
